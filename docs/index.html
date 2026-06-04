@@ -1,0 +1,2572 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Manna Studio ofrece publicidad y personalización en Santo Domingo con DTF, láser, CNC, branding y rotulación. Cotiza desde nuestra web.">
+    <meta name="theme-color" content="#0f172a">
+    <meta property="og:title" content="Manna Studio | Publicidad y Personalización">
+    <meta property="og:description" content="Impresión DTF, corte láser, router CNC y soluciones creativas en República Dominicana.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="MANNAN.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="MANNAN.png">
+    <title>Manna Studio | Publicidad y Personalización</title>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Manna Studio",
+      "description": "Publicidad y personalización en Santo Domingo con impresión DTF, corte láser, CNC, branding y rotulación.",
+      "image": "MANNAN.png",
+      "telephone": "+18099948009",
+      "email": "mannastudio323@gmail.com",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Calle Josefa Brea 46",
+        "addressLocality": "Santo Domingo",
+        "addressRegion": "Distrito Nacional",
+        "postalCode": "10104",
+        "addressCountry": "DO"
+      },
+      "url": "https://mannastudio.com.do",
+      "openingHours": ["Mo-Fr 09:00-18:00", "Sa 09:00-13:00"],
+      "sameAs": [
+        "https://www.instagram.com/mannastudiodr",
+        "https://wa.me/18099948009"
+      ]
+    }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        
+        body { 
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            scroll-behavior: smooth;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body.theme-dark {
+            background-color: #020617;
+            color: #e2e8f0;
+        }
+
+        body.theme-dark a {
+            color: #7dd3fc;
+        }
+
+        body.theme-dark .logo-img {
+            filter: invert(1) brightness(2);
+        }
+
+        body.theme-dark .header-top,
+        body.theme-dark .footer-tek,
+        body.theme-dark .nav-main,
+        body.theme-dark .offer-card,
+        body.theme-dark .product-card,
+        body.theme-dark .cartDrawer,
+        body.theme-dark .bg-white,
+        body.theme-dark .bg-slate-50,
+        body.theme-dark .bg-slate-950,
+        body.theme-dark .bg-slate-900,
+        body.theme-dark .bg-black {
+            background-color: #0f172a !important;
+            color: #e2e8f0 !important;
+        }
+
+        body.theme-dark .carousel-overlay {
+            background: linear-gradient(90deg, rgba(0,0,0,.78) 0%, rgba(0,0,0,.35) 50%, rgba(0,0,0,.78) 100%);
+        }
+
+        body.theme-dark .text-slate-900,
+        body.theme-dark .text-slate-800,
+        body.theme-dark .text-slate-700,
+        body.theme-dark .text-slate-600,
+        body.theme-dark .text-slate-500,
+        body.theme-dark .text-slate-400,
+        body.theme-dark .text-slate-300 {
+            color: #e2e8f0 !important;
+        }
+
+        body.theme-dark .text-slate-50,
+        body.theme-dark .text-white\/70,
+        body.theme-dark .text-white\/60,
+        body.theme-dark .text-white\/50 {
+            color: #e2e8f0 !important;
+        }
+
+        body.theme-dark .border-slate-100,
+        body.theme-dark .border-slate-200,
+        body.theme-dark .border-slate-50,
+        body.theme-dark .border-slate-500,
+        body.theme-dark .border-slate-600 {
+            border-color: #334155 !important;
+        }
+
+        body.theme-dark input,
+        body.theme-dark textarea,
+        body.theme-dark select {
+            background-color: #111827 !important;
+            color: #e2e8f0 !important;
+            border-color: #334155 !important;
+        }
+
+        body.theme-dark .bg-blue-600,
+        body.theme-dark .shadow-blue-600\/20 {
+            background-color: #2563eb !important;
+        }
+
+        body.theme-dark .bg-white\/10 {
+            background-color: rgba(255,255,255,0.08) !important;
+        }
+
+        /* Transiciones y Sombras */
+        .header-top { background-color: #000; color: #fff; font-size: 11px; }
+        .nav-main { background-color: #fff; border-bottom: 1px solid #eee; }
+        
+        /* Carrusel Pantalla Completa (Full Width) */
+        .carousel-wrapper { position: relative; width: 100%; overflow: hidden; height: 600px; }
+        .carousel-slide { 
+            display: flex; 
+            width: 500%; /* Para 5 imágenes */
+            height: 100%; 
+            transition: transform 1.5s cubic-bezier(0.4, 1, 0.5, 1);
+        }
+        .carousel-item { 
+            width: 20%; 
+            height: 100%; 
+            position: relative;
+            background-size: cover;
+            background-position: center;
+        }
+        .carousel-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.8) 100%);
+        }
+        
+        /* Puntos de Navegación */
+        .carousel-dots {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            z-index: 20;
+        }
+        .dot { 
+            width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,0.3); 
+            cursor: pointer; transition: all 0.3s;
+        }
+        .dot.active { background: #2563eb; width: 30px; border-radius: 20px; }
+
+        /* Slider de Productos */
+        .product-slider-container {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            gap: 20px;
+        }
+        .product-card {
+            min-width: calc(100% / 4); /* Muestra 4 productos en PC */
+        }
+        @media (max-width: 1024px) { .product-card { min-width: calc(100% / 2); } }
+        @media (max-width: 640px) { .product-card { min-width: 100%; } }
+
+        .footer-tek { background: #000; color: #fff; }
+        .footer-col-title { font-weight: 900; text-transform: uppercase; margin-bottom: 20px; color: #fff; }
+        .focus-visible-ring:focus-visible {
+            outline: 3px solid rgba(37, 99, 235, 0.85);
+            outline-offset: 3px;
+        }
+        .process-step,
+        .testimonial-card,
+        .faq-card,
+        .contact-card {
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            background: rgba(255, 255, 255, 0.03);
+            transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+        }
+        .process-step:hover,
+        .testimonial-card:hover,
+        .faq-card:hover,
+        .contact-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(37, 99, 235, 0.35);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        .testimonial-card {
+            min-height: 220px;
+        }
+        .faq-card {
+            min-height: 140px;
+        }
+        .contact-card {
+            padding: 2rem;
+        }
+        .client-logo {
+            min-height: 70px;
+            border-radius: 1.75rem;
+            background: rgba(255,255,255,0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .contact-input {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            color: #f8fafc;
+        }
+        .contact-input::placeholder {
+            color: rgba(255,255,255,0.65);
+        }
+        .contact-button {
+            background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
+            color: white;
+        }
+        .portfolio-filter-btn {
+            padding: 0.8rem 1.2rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,0.18);
+            background: rgba(255,255,255,0.05);
+            color: #e2e8f0;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            transition: all 0.25s ease;
+        }
+        .portfolio-filter-btn.active,
+        .portfolio-filter-btn:hover {
+            background: rgba(37, 99, 235, 0.95);
+            border-color: rgba(37, 99, 235, 0.95);
+            color: white;
+        }
+        .portfolio-item {
+            transition: transform 0.25s ease, opacity 0.25s ease;
+        }
+        .portfolio-item:hover {
+            transform: translateY(-4px);
+        }
+        
+        /* Animación Fade In */
+        .reveal { opacity: 0; transform: translateY(20px); transition: 0.8s all ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* Estilos específicos para la nueva sección de Ofertas */
+        .offers-container { position: relative; }
+        .offers-slider {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+        }
+        .offers-slider::-webkit-scrollbar { display: none; }
+        .offer-card {
+            flex: 0 0 100%;
+            scroll-snap-align: start;
+        }
+        @media (min-width: 768px) { .offer-card { flex: 0 0 50%; } }
+        @media (min-width: 1024px) { .offer-card { flex: 0 0 33.333%; } }
+
+        /* Navegación para Mouse en Ofertas */
+        .nav-offer {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(37, 99, 235, 0.8);
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 30;
+            opacity: 0;
+            transition: all 0.3s ease;
+            border: none;
+        }
+        .offers-container:hover .nav-offer { opacity: 1; }
+        .nav-offer:hover { background: #000; scale: 1.1; }
+        .nav-offer.prev { left: 10px; }
+        .nav-offer.next { right: 10px; }
+
+        /* Animación de línea continua en el borde */
+        .neon-border {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 20;
+        }
+
+        .neon-border-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 18%;
+            height: 4px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, rgba(0,255,255,0) 0%, rgba(0,255,255,0.95) 18%, rgba(255,255,255,0.95) 50%, rgba(0,0,0,0.95) 82%, rgba(0,255,255,0) 100%);
+            filter: drop-shadow(0 0 16px rgba(0,255,255,0.7)) drop-shadow(0 0 28px rgba(255,255,255,0.4));
+            animation: snakeBorder 10s linear infinite;
+        }
+
+        .page-loader {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at center, rgba(30, 41, 59, 0.95) 0%, #000 85%);
+            transition: opacity 0.9s ease, visibility 0.9s ease;
+            opacity: 1;
+            visibility: visible;
+            pointer-events: none;
+        }
+
+        .page-loader-hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .page-loader img {
+            width: min(220px, 70vw);
+            max-height: 220px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 28px rgba(255,255,255,0.25));
+            animation: loaderPulse 1.8s ease infinite;
+        }
+
+        @keyframes loaderPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes snakeBorder {
+            0% {
+                top: 0;
+                left: 0;
+                width: 18%;
+                height: 4px;
+                transform: rotate(0deg);
+            }
+            12.5% {
+                top: 0;
+                left: 82%;
+                width: 18%;
+                height: 4px;
+                transform: rotate(0deg);
+            }
+            12.6% {
+                top: 0;
+                left: calc(100% - 4px);
+                width: 4px;
+                height: 18%;
+                transform: rotate(0deg);
+            }
+            37.5% {
+                top: 82%;
+                left: calc(100% - 4px);
+                width: 4px;
+                height: 18%;
+                transform: rotate(0deg);
+            }
+            37.6% {
+                top: calc(100% - 4px);
+                left: 82%;
+                width: 18%;
+                height: 4px;
+                transform: rotate(0deg);
+            }
+            62.5% {
+                top: calc(100% - 4px);
+                left: 0;
+                width: 18%;
+                height: 4px;
+                transform: rotate(0deg);
+            }
+            62.6% {
+                top: 82%;
+                left: 0;
+                width: 4px;
+                height: 18%;
+                transform: rotate(0deg);
+            }
+            87.5% {
+                top: 0;
+                left: 0;
+                width: 4px;
+                height: 18%;
+                transform: rotate(0deg);
+            }
+            100% {
+                top: 0;
+                left: 0;
+                width: 18%;
+                height: 4px;
+                transform: rotate(0deg);
+            }
+        }
+    </style>
+</head>
+<body id="top" class="theme-light selection:bg-blue-600 selection:text-white">
+    <div id="pageLoader" class="page-loader" aria-hidden="true">
+        <img src="isotipo.webp" alt="Isotipo Manna Studio" />
+    </div>
+    <div class="header-top py-2 px-6 md:px-12 flex justify-between items-center">
+        <div class="flex items-center gap-6">
+            <div class="flex gap-4">
+                <a href="https://www.instagram.com/mannastudiodr" target="_blank" rel="noopener noreferrer" class="hover:text-blue-500"><i class="fab fa-instagram"></i></a>
+                <a href="https://wa.me/18099948009" target="_blank" rel="noopener noreferrer" class="hover:text-blue-500"><i class="fab fa-whatsapp"></i></a>
+            </div>
+            <span class="hidden md:inline text-white/50">|</span>
+            <div class="hidden md:flex items-center gap-2">
+                <i class="fas fa-phone-alt text-blue-500"></i> 809-994-8009
+            </div>
+            <div class="hidden md:flex items-center gap-2">
+                <i class="fas fa-envelope text-blue-500"></i> 
+                <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=mannastudio323@gmail.com" target="_blank" rel="noopener noreferrer" class="hover:underline">mannastudio323@gmail.com</a>
+            </div>
+        </div>
+        <div class="flex items-center gap-4">
+            <div id="statusBadge" class="flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full uppercase font-black text-[9px] tracking-widest">
+                <span class="relative flex h-2 w-2">
+                    <span id="statusDotPing" class="animate-ping absolute h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                    <span id="statusDot" class="relative rounded-full h-2 w-2 bg-green-500"></span>
+                </span>
+                <span id="statusText">Abierto</span>
+            </div>
+        </div>
+    </div>
+
+    <nav class="nav-main sticky top-0 z-50 py-4 px-6 md:px-12 flex justify-between items-center shadow-sm">
+        <a href="#top" class="flex items-center gap-3 no-underline text-inherit">
+            <img src="MANNAN.png" class="logo-img h-10 w-auto" alt="Logo">
+            <div class="flex flex-col">
+                <span class="font-black text-lg tracking-tighter uppercase leading-none">Manna Studio</span>
+                <span class="text-[8px] font-bold text-blue-600 tracking-[0.3em]">PUBLICIDAD &amp; PERSONALIZACIÓN</span>
+            </div>
+        </a>
+        
+        <div class="hidden lg:flex items-center gap-8 font-black text-[11px] uppercase tracking-widest">
+            <a href="#productos-slider" class="hover:text-blue-600 transition-colors">Servicios</a>
+            <a href="#ubicacion" class="hover:text-blue-600 transition-colors">Ubicación</a>
+            <a href="#ofertas-especiales" class="hover:text-blue-600 transition-colors">Ofertas</a>
+            <a href="#portafolio" class="hover:text-blue-600 transition-colors">Portafolio</a>
+            <a href="#contacto" class="hover:text-blue-600 transition-colors">Contacto</a>
+        </div>
+
+        <button id="themeToggleBtn" type="button" aria-label="Cambiar modo claro u oscuro" class="inline-flex items-center justify-center rounded-full border border-slate-200 bg-slate-900 text-white w-11 h-11 mr-3 hover:bg-slate-800 transition">
+            <i class="fas fa-moon"></i>
+        </button>
+
+        <button type="button" onclick="document.getElementById('cotizador').scrollIntoView({ behavior: 'smooth' })" 
+class="bg-blue-600 text-white px-6 py-2.5 rounded-lg font-black text-[10px] uppercase tracking-widest hover:bg-slate-900 transition-all shadow-lg shadow-blue-600/20">
+    Cotizar Ahora
+</button>
+    </nav>
+
+    <section id="auth-signin" class="bg-slate-100 py-12">
+        <div class="max-w-5xl mx-auto px-6 text-center">
+            <div class="inline-flex flex-col items-center gap-4 rounded-[2rem] border border-slate-200 bg-white p-8 shadow-xl">
+                <span class="text-blue-600 font-black tracking-[0.3em] text-xs uppercase">Acceso seguro</span>
+                <h2 class="text-3xl md:text-4xl font-black text-slate-900 uppercase">Inicia sesión con Google</h2>
+                <p class="max-w-2xl text-slate-600">Accede rápido y seguro con tu cuenta de Google para continuar en el panel de Manna Studio.</p>
+                <button type="button" onclick="loginConGoogle()" class="inline-flex items-center justify-center gap-3 rounded-full bg-slate-900 px-8 py-4 text-white font-black uppercase tracking-[0.2em] transition hover:bg-slate-800 shadow-lg shadow-slate-300/30">
+                    <i class="fab fa-google text-xl"></i>
+                    Iniciar sesión con Google
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="carousel-wrapper">
+        <div class="carousel-slide" id="mainCarousel">
+            <div class="carousel-item" style="background-image: url('MÁQUINADTF.webp');">
+                <div class="carousel-overlay flex flex-col justify-center px-12 md:px-24">
+                    <span class="text-blue-500 font-black tracking-[0.4em] mb-4 text-sm">CALIDAD PREMIUM</span>
+                    <h2 class="text-white text-5xl md:text-7xl font-black italic uppercase leading-tight tracking-tighter">IMPRESIÓN <br> DTF TEXTIL</h2>
+                    <p class="text-white/70 max-w-lg mt-4 font-medium italic">Impresión con colores vibrantes y máxima <br> durabilidad para tus prendas.</p>
+                </div>
+            </div>
+            <div class="carousel-item" style="background-image: url('LASER-100.webp');">
+                <div class="carousel-overlay flex flex-col justify-center px-12 md:px-24">
+                    <span class="text-blue-500 font-black tracking-[0.4em] mb-4 text-sm">ALTA PRECISIÓN</span>
+                    <h2 class="text-white text-5xl md:text-7xl font-black italic uppercase leading-tight tracking-tighter">LASER 4X8</h2>
+                    <p class="text-white/70 max-w-lg mt-4 font-medium italic">Corte con precisión milimétrica para diseños <br> complejos.</p>
+                </div>
+            </div>
+            <div class="carousel-item" style="background-image: url('CNC-100.webp');">
+                <div class="carousel-overlay flex flex-col justify-center px-12 md:px-24">
+                    <span class="text-blue-500 font-black tracking-[0.4em] mb-4 text-sm">PRECISIÓN INDUSTRIAL</span>
+                    <h2 class="text-white text-5xl md:text-7xl font-black italic uppercase leading-tight tracking-tighter">ROUTER CNC</h2>
+                    <p class="text-white/70 max-w-lg mt-4 font-medium italic">Detalles perfectos con tecnología CNC.</p>
+                </div>
+            </div>
+            <div class="carousel-item" style="background-image: url('PLOTTER-100.webp');">
+                <div class="carousel-overlay flex flex-col justify-center px-12 md:px-24">
+                    <span class="text-blue-500 font-black tracking-[0.4em] mb-4 text-sm">GRAN FORMATO</span>
+                    <h2 class="text-white text-5xl md:text-7xl font-black italic uppercase leading-tight tracking-tighter">IMPRESIÓN <br> ECOSOLVENTE</h2>
+                    <p class="text-white/70 max-w-lg mt-4 font-medium italic">10 pies con la más alta calidad.</p>
+                </div>
+            </div>
+            <div class="carousel-item" style="background-image: url('BORDADO-100.webp');">
+                <div class="carousel-overlay flex flex-col justify-center px-12 md:px-24">
+                    <span class="text-white font-black tracking-[0.4em] mb-4 text-sm">CALIDAD PREMIUM</span>
+                    <h2 class="text-white text-5xl md:text-7xl font-black italic uppercase leading-tight tracking-tighter">BORDADO <br> INDUSTRIAL</h2>
+                    <p class="text-white/70 max-w-lg mt-4 font-medium italic">Representa tu marca.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="carousel-dots">
+            <div class="dot active" onclick="goSlide(0)"></div>
+            <div class="dot" onclick="goSlide(1)"></div>
+            <div class="dot" onclick="goSlide(2)"></div>
+            <div class="dot" onclick="goSlide(3)"></div>
+            <div class="dot" onclick="goSlide(4)"></div>
+        </div>
+    </section>
+
+    <section id="ofertas-especiales" class="bg-black py-12">
+        <div class="px-6 mb-8">
+            <span class="text-blue-500 font-black tracking-[0.3em] text-[10px] uppercase">Oportunidades únicas</span>
+            <h2 class="text-white text-3xl font-black italic uppercase tracking-tighter">Ofertas <span class="text-blue-600">Del Mes</span></h2>
+        </div>
+        
+        <div class="offers-container">
+            <button type="button" aria-label="Anterior oferta" class="nav-offer prev" onclick="scrollOffers(-1)"><i class="fas fa-chevron-left"></i></button>
+            <button type="button" aria-label="Siguiente oferta" class="nav-offer next" onclick="scrollOffers(1)"><i class="fas fa-chevron-right"></i></button>
+
+            <div class="grid gap-8 lg:grid-cols-[1.5fr_1fr] mb-10 items-center">
+            <div>
+                <div class="inline-flex items-center gap-3 rounded-full bg-white/10 px-4 py-2 text-white text-xs uppercase tracking-[0.3em] font-black">
+                    <i class="fas fa-bolt"></i>
+                    Oferta limitada
+                </div>
+                <p class="mt-4 text-slate-300">Aprovecha los precios especiales antes de que termine la promoción del mes.</p>
+            </div>
+            <div class="counter-card rounded-[2rem] p-6 text-center text-white shadow-xl">
+                <div class="text-xs uppercase tracking-[0.4em] text-blue-400 font-black">Termina en</div>
+                <div class="offer-countdown mt-6 flex flex-wrap justify-center gap-3 text-sm font-black uppercase tracking-[0.15em]">
+                    <span><strong id="offerDays">00</strong><br><small>Días</small></span>
+                    <span><strong id="offerHours">00</strong><br><small>Horas</small></span>
+                    <span><strong id="offerMinutes">00</strong><br><small>Min</small></span>
+                    <span><strong id="offerSeconds">00</strong><br><small>Seg</small></span>
+                </div>
+            </div>
+        </div>
+        <div class="offers-slider" id="offersSlider">
+                <div class="offer-card border-r border-white/10 bg-zinc-900 group">
+                    <div class="h-80 overflow-hidden">
+                        <img src="DTFYARDA-100.webp" alt="Oferta 1" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-white font-black uppercase italic text-xl">10 YARDAS DTF TEXTIL</h3>
+                        <div class="flex items-center gap-3 mt-2">
+                            <span class="text-white/30 line-through font-bold text-sm">RD$ 3,500</span>
+                            <span class="text-blue-500 font-black text-2xl">RD$ 3,000</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="offer-card border-r border-white/10 bg-zinc-900 group">
+                    <div class="h-80 overflow-hidden">
+                        <img src="CORTE_LASER-100.webp" alt="Oferta 2" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-white font-black uppercase italic text-xl">1/2 HORA CORTE LÁSER</h3>
+                        <div class="flex items-center gap-3 mt-2">
+                            <span class="text-white/30 line-through font-bold text-sm">RD$ 750</span>
+                            <span class="text-blue-500 font-black text-2xl">RD$ 550</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="offer-card border-r border-white/10 bg-zinc-900 group">
+                    <div class="h-80 overflow-hidden">
+                        <img src="TAZAS-100.webp" alt="Oferta 3" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-white font-black uppercase italic text-xl">10 TAZAS PERSONALIZADAS</h3>
+                        <div class="flex items-center gap-3 mt-2">
+                            <span class="text-white/30 line-through font-bold text-sm">RD$ 3,500</span>
+                            <span class="text-blue-500 font-black text-2xl">RD$ 2,900</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="offer-card border-r border-white/10 bg-zinc-900 group">
+                    <div class="h-80 overflow-hidden">
+                        <img src="LETRERO-100.webp" alt="Oferta 4" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-white font-black uppercase italic text-xl">LETRERO ACRILICO 30X30</h3>
+                        <div class="flex items-center gap-3 mt-2">
+                            <span class="text-white/30 line-through font-bold text-sm">RD$ 4,750</span>
+                            <span class="text-blue-500 font-black text-2xl">RD$ 3,500</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="offer-card bg-zinc-900 group">
+                    <div class="h-80 overflow-hidden">
+                        <img src="HODDIE-100.webp" alt="Oferta 5" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-white font-black uppercase italic text-xl">HOODIE PERSONALIZADOs</h3>
+                        <div class="flex items-center gap-3 mt-2">
+                            <span class="text-white/30 line-through font-bold text-sm">RD$ 1,650/UND</span>
+                            <span class="text-blue-500 font-black text-2xl">RD$ 1,200</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="productos-slider" class="py-24 bg-slate-50 overflow-hidden relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-between items-end mb-12">
+                <div>
+                    <span class="text-blue-600 font-black tracking-widest text-xs uppercase">2026</span>
+                    <h2 class="text-4xl font-black text-slate-900 uppercase italic">NUESTROS <span class="text-blue-600">SERVICIOS</span></h2>
+                </div>
+                <div class="flex gap-4">
+                    <button type="button" aria-label="Anterior producto" onclick="prevProduct()" class="bg-white hover:bg-blue-600 hover:text-white text-slate-900 w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-all border border-slate-200">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button type="button" aria-label="Siguiente producto" onclick="nextProduct()" class="bg-white hover:bg-blue-600 hover:text-white text-slate-900 w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-all border border-slate-200">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="relative">
+                <div class="product-slider-container" id="productContainer">
+                    <div class="product-card bg-white rounded-3xl overflow-hidden shadow-md border border-slate-100 group transition-all hover:shadow-xl cursor-pointer" role="button" tabindex="0" data-video="video.mp4">
+                        <div class="h-64 bg-slate-200 overflow-hidden relative">
+                            <img src="ROLLODTF-100.webp" alt="Producto" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition">
+                                <span class="bg-white/90 text-slate-900 text-[11px] font-black uppercase tracking-[0.3em] px-3 py-2 rounded-full">Ver video</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-black uppercase italic text-lg mb-2">IMPRESIÓN DTF TEXTIL</h3>
+                            <p class="text-slate-500 text-sm font-medium">Calidad Premium y entrega rápida.</p>
+                            <p class="text-[10px] uppercase tracking-[0.3em] text-slate-400 mt-3">Haz clic para ver el proceso</p>
+                        </div>
+                    </div>
+                    <div class="product-card bg-white rounded-3xl overflow-hidden shadow-md border border-slate-100 group transition-all hover:shadow-xl cursor-pointer" role="button" tabindex="0" data-video="videos/laser-4x8.mp4">
+                        <div class="h-64 bg-slate-200 overflow-hidden relative">
+                            <img src="CORLASER-100.webp" alt="Producto" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition">
+                                <span class="bg-white/90 text-slate-900 text-[11px] font-black uppercase tracking-[0.3em] px-3 py-2 rounded-full">Ver video</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-black uppercase italic text-lg mb-2">CORTE EN LASER 4X8</h3>
+                            <p class="text-slate-500 text-sm font-medium">Corte láser 4x8 preciso, rápido y acabado profesional garantizado.</p>
+                            <p class="text-[10px] uppercase tracking-[0.3em] text-slate-400 mt-3">Haz clic para ver el proceso</p>
+                        </div>
+                    </div>
+                    <div class="product-card bg-white rounded-3xl overflow-hidden shadow-md border border-slate-100 group transition-all hover:shadow-xl cursor-pointer" role="button" tabindex="0" data-video="videos/router-cnc.mp4">
+                        <div class="h-64 bg-slate-200 overflow-hidden relative">
+                            <img src="CORCNC-100.webp" alt="Producto" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition">
+                                <span class="bg-white/90 text-slate-900 text-[11px] font-black uppercase tracking-[0.3em] px-3 py-2 rounded-full">Ver video</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-black uppercase italic text-lg mb-2">ROUTER CNC</h3>
+                            <p class="text-slate-500 text-sm font-medium">Corte CNC preciso, acabados profesionales y producción de alta calidad.</p>
+                            <p class="text-[10px] uppercase tracking-[0.3em] text-slate-400 mt-3">Haz clic para ver el proceso</p>
+                        </div>
+                    </div>
+                    <div class="product-card bg-white rounded-3xl overflow-hidden shadow-md border border-slate-100 group transition-all hover:shadow-xl cursor-pointer" role="button" tabindex="0" data-video="videos/gran-formato.mp4">
+                        <div class="h-64 bg-slate-200 overflow-hidden relative">
+                            <img src="ECOSOLVENTE-100.webp" alt="Producto" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition">
+                                <span class="bg-white/90 text-slate-900 text-[11px] font-black uppercase tracking-[0.3em] px-3 py-2 rounded-full">Ver video</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-black uppercase italic text-lg mb-2">IMPRESIÓN GRAN FORMATO</h3>
+                            <p class="text-slate-500 text-sm font-medium">Impresión ecosolvente premium para lonas, stickers, banners y rotulación.</p>
+                            <p class="text-[10px] uppercase tracking-[0.3em] text-slate-400 mt-3">Haz clic para ver el proceso</p>
+                        </div>
+                    </div>
+                    <div class="product-card bg-white rounded-3xl overflow-hidden shadow-md border border-slate-100 group transition-all hover:shadow-xl cursor-pointer" role="button" tabindex="0" data-video="videos/sublimacion.mp4">
+                        <div class="h-64 bg-slate-200 overflow-hidden relative">
+                            <img src="SUBLI-100.webp" alt="Producto" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition">
+                                <span class="bg-white/90 text-slate-900 text-[11px] font-black uppercase tracking-[0.3em] px-3 py-2 rounded-full">Ver video</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-black uppercase italic text-lg mb-2">SUBLIMACIÓN</h3>
+                            <p class="text-slate-500 text-sm font-medium">Sublimación profesional para textiles, promocionales y regalos personalizados.</p>
+                            <p class="text-[10px] uppercase tracking-[0.3em] text-slate-400 mt-3">Haz clic para ver el proceso</p>
+                        </div>
+                    </div>
+                    <div class="product-card bg-white rounded-3xl overflow-hidden shadow-md border border-slate-100 group transition-all hover:shadow-xl cursor-pointer" role="button" tabindex="0" data-video="videos/diseno-grafico.mp4">
+                        <div class="h-64 bg-slate-200 overflow-hidden relative">
+                            <img src="DISEÑO-100.webp" alt="Producto" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition">
+                                <span class="bg-white/90 text-slate-900 text-[11px] font-black uppercase tracking-[0.3em] px-3 py-2 rounded-full">Ver video</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-black uppercase italic text-lg mb-2">DISEÑO GRÁFICO</h3>
+                            <p class="text-slate-500 text-sm font-medium">Creamos diseños personalizados adaptados a tu marca y objetivo.</p>
+                            <p class="text-[10px] uppercase tracking-[0.3em] text-slate-400 mt-3">Haz clic para ver el proceso</p>
+                        </div>
+                    </div>
+                    <div class="product-card bg-white rounded-3xl overflow-hidden shadow-md border border-slate-100 group transition-all hover:shadow-xl cursor-pointer" role="button" tabindex="0" data-video="videos/branding.mp4">
+                        <div class="h-64 bg-slate-200 overflow-hidden relative">
+                            <img src="BRANDING-100.webp" alt="Producto" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition">
+                                <span class="bg-white/90 text-slate-900 text-[11px] font-black uppercase tracking-[0.3em] px-3 py-2 rounded-full">Ver video</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-black uppercase italic text-lg mb-2">BRANDING EMPRESARIAL</h3>
+                            <p class="text-slate-500 text-sm font-medium">Desarrollamos estrategias de branding que refuerzan la identidad de tu empresa.</p>
+                            <p class="text-[10px] uppercase tracking-[0.3em] text-slate-400 mt-3">Haz clic para ver el proceso</p>
+                        </div>
+                    </div>
+                    <div class="product-card bg-white rounded-3xl overflow-hidden shadow-md border border-slate-100 group transition-all hover:shadow-xl cursor-pointer" role="button" tabindex="0" data-video="videos/diseno-productos.mp4">
+                        <div class="h-64 bg-slate-200 overflow-hidden relative">
+                            <img src="PRODUCTOS -100.webp" alt="Producto" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition">
+                                <span class="bg-white/90 text-slate-900 text-[11px] font-black uppercase tracking-[0.3em] px-3 py-2 rounded-full">Ver video</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-black uppercase italic text-lg mb-2">DISEÑO DE PRODUCTOS</h3>
+                            <p class="text-slate-500 text-sm font-medium">Desarrollamos soluciones de diseño innovadoras para productos de alta calidad.</p>
+                            <p class="text-[10px] uppercase tracking-[0.3em] text-slate-400 mt-3">Haz clic para ver el proceso</p>
+                        </div>
+                    </div>
+                    <div class="product-card bg-white rounded-3xl overflow-hidden shadow-md border border-slate-100 group transition-all hover:shadow-xl cursor-pointer" role="button" tabindex="0" data-video="videos/uniformes.mp4">
+                        <div class="h-64 bg-slate-200 overflow-hidden relative">
+                            <img src="UNIFORME -100.webp" alt="Producto" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition">
+                                <span class="bg-white/90 text-slate-900 text-[11px] font-black uppercase tracking-[0.3em] px-3 py-2 rounded-full">Ver video</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-black uppercase italic text-lg mb-2">UNIFORMES PERSONALIZADOS</h3>
+                            <p class="text-slate-500 text-sm font-medium">Diseñamos y fabricamos uniformes que refuerzan la identidad de tu marca.</p>
+                            <p class="text-[10px] uppercase tracking-[0.3em] text-slate-400 mt-3">Haz clic para ver el proceso</p>
+                        </div>
+                    </div>
+                    <div class="product-card bg-white rounded-3xl overflow-hidden shadow-md border border-slate-100 group transition-all hover:shadow-xl cursor-pointer" role="button" tabindex="0" data-video="videos/fachadas.mp4">
+                        <div class="h-64 bg-slate-200 overflow-hidden relative">
+                            <img src="FACHADAS-100.webp" alt="Producto" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition">
+                                <span class="bg-white/90 text-slate-900 text-[11px] font-black uppercase tracking-[0.3em] px-3 py-2 rounded-full">Ver video</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-black uppercase italic text-lg mb-2">FACHADAS COMERCIALES</h3>
+                            <p class="text-slate-500 text-sm font-medium">Creamos fachadas comerciales atractivas que destacan en el mercado.</p>
+                            <p class="text-[10px] uppercase tracking-[0.3em] text-slate-400 mt-3">Haz clic para ver el proceso</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="portafolio" class="py-24 bg-slate-950 text-white">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-10">
+                <span class="text-blue-400 uppercase tracking-[0.35em] text-xs font-black">Portafolio</span>
+                <h2 class="text-4xl font-black uppercase italic mt-4">Marcas y proyectos destacados</h2>
+                <div class="mt-8 flex flex-wrap justify-center gap-3">
+                    <button type="button" class="portfolio-filter-btn active" data-category="all">Todo</button>
+                    <button type="button" class="portfolio-filter-btn" data-category="branding">Branding</button>
+                    <button type="button" class="portfolio-filter-btn" data-category="impresion">Impresión</button>
+                    <button type="button" class="portfolio-filter-btn" data-category="lona">Lonas</button>
+                    <button type="button" class="portfolio-filter-btn" data-category="rotulacion">Rotulación</button>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="portfolio-item rounded-3xl bg-white/5 border border-white/10 p-8 flex flex-col justify-between text-center cursor-pointer" role="button" tabindex="0" aria-label="Ver detalles de identidad corporativa" data-category="branding" data-title="Identidad corporativa" data-detail="Proyecto de marca completo para una empresa local con aplicaciones en branding y material publicitario." data-image="MANNAN.png">
+                    <span class="uppercase text-sm tracking-[0.3em] font-black text-slate-200">Identidad corporativa</span>
+                    <p class="text-[10px] text-white/60 mt-4">Proyecto de marca completo para una empresa local.</p>
+                </div>
+                <div class="portfolio-item rounded-3xl bg-white/5 border border-white/10 p-8 flex flex-col justify-between text-center cursor-pointer" role="button" tabindex="0" aria-label="Ver detalles de impresión DTF" data-category="impresion" data-title="Impresión DTF" data-detail="Impresiones DTF para textil con colores vibrantes y máxima durabilidad." data-image="DTFYARDA-100.webp">
+                    <span class="uppercase text-sm tracking-[0.3em] font-black text-slate-200">Impresión DTF</span>
+                    <p class="text-[10px] text-white/60 mt-4">Textiles personalizados con colores vibrantes y fidelidad.</p>
+                </div>
+                <div class="portfolio-item rounded-3xl bg-white/5 border border-white/10 p-8 flex flex-col justify-between text-center cursor-pointer" role="button" tabindex="0" aria-label="Ver detalles de lonas exteriores" data-category="lona" data-title="Lonas exteriores" data-detail="Lonas grandes de alta resistencia para publicidad exterior con impresión de calidad." data-image="ECOSOLVENTE-100.webp">
+                    <span class="uppercase text-sm tracking-[0.3em] font-black text-slate-200">Lonas exteriores</span>
+                    <p class="text-[10px] text-white/60 mt-4">Lonas resistentes para publicidad en exteriores.</p>
+                </div>
+                <div class="portfolio-item rounded-3xl bg-white/5 border border-white/10 p-8 flex flex-col justify-between text-center cursor-pointer" role="button" tabindex="0" aria-label="Ver detalles de rotulación" data-category="rotulacion" data-title="Rotulación" data-detail="Rotulación para fachadas, vehículos y espacios comerciales con acabados premium." data-image="FACHADAS-100.webp">
+                    <span class="uppercase text-sm tracking-[0.3em] font-black text-slate-200">Rotulación</span>
+                    <p class="text-[10px] text-white/60 mt-4">Señalética y rótulos que elevan cualquier espacio comercial.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="metodo" class="py-24 bg-slate-50 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-12">
+                <span class="text-blue-600 font-black tracking-[0.3em] text-xs uppercase">Cómo trabajamos</span>
+                <h2 class="text-4xl font-black uppercase italic text-slate-900 mt-3">Proceso claro y resultados rápidos</h2>
+            </div>
+            <div class="grid gap-8 lg:grid-cols-2 items-start">
+                <div class="space-y-6">
+                    <div class="rounded-[2rem] bg-white p-10 shadow-2xl border border-slate-200">
+                        <span class="text-blue-600 uppercase text-xs tracking-[0.3em] font-black">De principio a fin</span>
+                        <h3 class="text-3xl font-black mt-4">Diseño, producción y entrega sin complicaciones</h3>
+                        <p class="text-slate-500 mt-4">Te acompañamos en cada etapa desde la idea hasta la entrega, con comunicación clara y tiempos reales.</p>
+                    </div>
+                    <div class="grid gap-4 sm:grid-cols-2">
+                        <div class="process-step rounded-[2rem] p-6 bg-white shadow-xl">
+                            <span class="text-sm uppercase tracking-[0.3em] font-black text-blue-600">01</span>
+                            <h4 class="text-xl font-black mt-3">Consulta</h4>
+                            <p class="text-sm text-slate-500 mt-3">Recibimos tus ideas para personalizar tu proyecto con precisión.</p>
+                        </div>
+                        <div class="process-step rounded-[2rem] p-6 bg-white shadow-xl">
+                            <span class="text-sm uppercase tracking-[0.3em] font-black text-blue-600">02</span>
+                            <h4 class="text-xl font-black mt-3">Diseño</h4>
+                            <p class="text-sm text-slate-500 mt-3">Creamos la propuesta visual y validamos los detalles contigo.</p>
+                        </div>
+                        <div class="process-step rounded-[2rem] p-6 bg-white shadow-xl">
+                            <span class="text-sm uppercase tracking-[0.3em] font-black text-blue-600">03</span>
+                            <h4 class="text-xl font-black mt-3">Producción</h4>
+                            <p class="text-sm text-slate-500 mt-3">Fabricamos con tecnología DTF, láser, CNC y rotulación.</p>
+                        </div>
+                        <div class="process-step rounded-[2rem] p-6 bg-white shadow-xl">
+                            <span class="text-sm uppercase tracking-[0.3em] font-black text-blue-600">04</span>
+                            <h4 class="text-xl font-black mt-3">Entrega</h4>
+                            <p class="text-sm text-slate-500 mt-3">Entregamos a tiempo y te avisamos cuando tu pedido está listo.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="rounded-[2rem] bg-slate-900 p-10 shadow-2xl text-white">
+                    <span class="text-blue-400 uppercase text-xs tracking-[0.3em] font-black">Clientes satisfechos</span>
+                    <h3 class="text-3xl font-black mt-4">Marcas que ya confían en Manna Studio</h3>
+                    <p class="text-slate-400 mt-4">Trabajamos con empresas, emprendimientos y marcas creativas que necesitan calidad y rapidez.</p>
+                    <div class="mt-10 grid gap-4 sm:grid-cols-2">
+                        <div class="client-logo">Brand A</div>
+                        <div class="client-logo">Brand B</div>
+                        <div class="client-logo">Brand C</div>
+                        <div class="client-logo">Brand D</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonios" class="py-24 bg-slate-950 text-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-12">
+                <span class="text-blue-400 uppercase tracking-[0.35em] text-xs font-black">Testimonios</span>
+                <h2 class="text-4xl font-black uppercase italic mt-4">Clientes felices con su inversión</h2>
+            </div>
+            <div class="grid gap-6 lg:grid-cols-3">
+                <div class="testimonial-card rounded-[2rem] p-8 bg-white/5">
+                    <p class="text-slate-300">"Manna Studio hizo que nuestro logo se vea increíble en camisetas y lonas. La atención fue rápida y muy profesional."</p>
+                    <div class="mt-6">
+                        <p class="font-black uppercase text-xs tracking-[0.3em] text-blue-400">Paola R.</p>
+                        <p class="text-slate-500 text-xs mt-1">Emprendedora, Moda Urbana</p>
+                    </div>
+                </div>
+                <div class="testimonial-card rounded-[2rem] p-8 bg-white/5">
+                    <p class="text-slate-300">"El corte láser llegó antes de lo esperado y la calidad del material es excelente. 100% recomendados."</p>
+                    <div class="mt-6">
+                        <p class="font-black uppercase text-xs tracking-[0.3em] text-blue-400">Carlos J.</p>
+                        <p class="text-slate-500 text-xs mt-1">Diseño de interiores</p>
+                    </div>
+                </div>
+                <div class="testimonial-card rounded-[2rem] p-8 bg-white/5">
+                    <p class="text-slate-300">"Siempre han tenido buena comunicación y el resultado final de nuestras fachadas fue espectacular."</p>
+                    <div class="mt-6">
+                        <p class="font-black uppercase text-xs tracking-[0.3em] text-blue-400">María E.</p>
+                        <p class="text-slate-500 text-xs mt-1">Comercial</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="py-24 bg-white">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-12">
+                <span class="text-blue-600 uppercase tracking-[0.3em] text-xs font-black">Preguntas frecuentes</span>
+                <h2 class="text-4xl font-black uppercase italic text-slate-900 mt-3">Respuestas rápidas para tus dudas</h2>
+            </div>
+            <div class="grid gap-6 md:grid-cols-2">
+                <div class="faq-card rounded-[2rem] p-8 bg-slate-50">
+                    <h4 class="font-black uppercase tracking-[0.18em] text-slate-900">¿Cuánto demora una cotización?</h4>
+                    <p class="text-slate-500 mt-4">En menos de 24 horas te enviamos el precio estimado y el plazo de entrega.</p>
+                </div>
+                <div class="faq-card rounded-[2rem] p-8 bg-slate-50">
+                    <h4 class="font-black uppercase tracking-[0.18em] text-slate-900">¿Qué formatos aceptan?</h4>
+                    <p class="text-slate-500 mt-4">Aceptamos PNG, JPG, PDF, SVG y archivos de diseño listos para imprimir.</p>
+                </div>
+                <div class="faq-card rounded-[2rem] p-8 bg-slate-50">
+                    <h4 class="font-black uppercase tracking-[0.18em] text-slate-900">¿Realizan envíos?</h4>
+                    <p class="text-slate-500 mt-4">Sí, enviamos a todo Santo Domingo y zonas cercanas. Pregunta por tu área.</p>
+                </div>
+                <div class="faq-card rounded-[2rem] p-8 bg-slate-50">
+                    <h4 class="font-black uppercase tracking-[0.18em] text-slate-900">¿Tienen pedido mínimo?</h4>
+                    <p class="text-slate-500 mt-4">No siempre. Muchos servicios se cotizan por unidad o por área, te decimos el mínimo según tu proyecto.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contacto" class="py-24 bg-blue-950 text-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid gap-10 lg:grid-cols-2 items-center">
+                <div>
+                    <span class="text-blue-400 uppercase tracking-[0.35em] text-xs font-black">Contacto rápido</span>
+                    <h2 class="text-4xl font-black uppercase italic mt-4">Escríbenos y te cotizamos ya</h2>
+                    <p class="text-slate-300 mt-5">Completa este formulario y te responderemos con el mejor precio, tiempo y recomendaciones para tu proyecto.</p>
+                    <div class="mt-10 space-y-4 text-sm text-slate-300">
+                        <p><strong>Teléfono:</strong> <a href="tel:+18099948009" class="underline text-white">809-994-8009</a></p>
+                        <p><strong>Email:</strong> <a href="mailto:mannastudio323@gmail.com" class="underline text-white">mannastudio323@gmail.com</a></p>
+                        <p><strong>Ubicación:</strong> Calle Josefa Brea 46, SD</p>
+                    </div>
+                </div>
+                <div class="contact-card rounded-[2rem] bg-slate-900 border border-white/10 p-8 shadow-2xl">
+                    <form id="quickContactForm" onsubmit="return sendQuickContact(event)">
+                        <div class="grid gap-4">
+                            <input id="contactName" type="text" placeholder="Tu nombre" class="contact-input w-full rounded-3xl p-4 focus-visible-ring" required>
+                            <input id="contactPhone" type="tel" placeholder="WhatsApp o teléfono" class="contact-input w-full rounded-3xl p-4 focus-visible-ring" required>
+                            <select id="contactService" class="contact-input w-full rounded-3xl p-4 focus-visible-ring">
+                                <option value="">Servicio requerido</option>
+                                <option value="DTF Textil">DTF Textil</option>
+                                <option value="Corte Láser">Corte Láser</option>
+                                <option value="Router CNC">Router CNC</option>
+                                <option value="Lonas y Rotulación">Lonas y Rotulación</option>
+                                <option value="Branding / Diseño">Branding / Diseño</option>
+                            </select>
+                            <textarea id="contactMessage" rows="4" placeholder="Cuéntanos tu proyecto" class="contact-input w-full rounded-3xl p-4 focus-visible-ring" required></textarea>
+                        </div>
+                        <p id="contactFormMessage" class="mt-4 text-sm text-amber-300 hidden" aria-live="polite"></p>
+                        <button type="submit" class="contact-button mt-6 w-full rounded-3xl py-4 font-black uppercase tracking-[0.25em] hover:brightness-110 transition-all">Enviar mensaje por WhatsApp</button>
+                        <button type="button" onclick="sendQuickEmail()" class="mt-4 w-full rounded-3xl border border-white/20 bg-white/10 py-4 font-black uppercase tracking-[0.25em] text-white hover:bg-white/15 transition-all">Enviar por correo</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="videoModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 p-6" onclick="if(event.target===this) closeVideoModal()">
+        <div class="relative w-full max-w-5xl overflow-hidden rounded-[2rem] bg-slate-950 shadow-2xl">
+            <button type="button" aria-label="Cerrar video" onclick="closeVideoModal()" class="absolute right-4 top-4 z-20 text-white text-3xl">×</button>
+            <div class="aspect-[16/9] bg-black">
+                <video id="videoPlayer" class="hidden h-full w-full" controls playsinline>
+                    <source id="videoSource" src="" type="video/mp4">
+                    Tu navegador no soporta video HTML5.
+                </video>
+                <iframe id="videoFrame" class="hidden h-full w-full" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <div id="videoUnavailable" class="hidden h-full w-full flex items-center justify-center text-white">Video no disponible</div>
+            </div>
+            <div class="border-t border-white/10 p-6 text-right">
+                <button type="button" onclick="closeVideoModal()" class="rounded-full bg-white px-6 py-3 font-black uppercase tracking-[0.3em] text-slate-900">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <section id="cotizador" class="py-24 bg-white">
+<div class="max-w-5xl mx-auto px-6">
+
+    <div class="text-center mb-12">
+        <span class="text-blue-600 font-black tracking-[0.3em] text-xs uppercase">
+            Cotizador Inteligente
+        </span>
+        <h2 class="text-4xl font-black uppercase italic text-slate-900 mt-3">
+            Calcula tu <span class="text-blue-600">Precio Real</span>
+        </h2>
+    </div>
+
+    <div class="bg-slate-50 border rounded-3xl p-8 shadow-lg">
+
+        <!-- SERVICIO -->
+<label for="servicio" class="font-black text-sm uppercase">Servicio</label>
+<select id="servicio" class="w-full mt-2 p-4 rounded-xl border mb-4">
+    <option value="">Selecciona servicio</option>
+
+    <option value="dtf">DTF Textil (RD$350 yarda)</option>
+
+    <option value="laser_30">Láser 30 min (RD$650)</option>
+    <option value="laser_60">Láser 1 hora (RD$1300)</option>
+
+    <option value="cnc">Router CNC (RD$1200 hora)</option>
+
+    <option value="lona">Ecosolvente Lona (RD$45 pie)</option>
+    <option value="vinyl">Vinyl (RD$45 pie)</option>
+    <option value="sticker">Etiquetas (RD$75 pie)</option>
+    <option value="onevision">One Vision (RD$90 pie)</option>
+
+    <option value="sublimacion">Sublimación (Cotizar manual)</option>
+    <option value="bordado">Bordado (Cotizar manual)</option>
+</select>
+
+<!-- ECO -->
+<div id="ecoInputs" class="hidden grid grid-cols-2 gap-4 mb-4">
+    <input id="ancho" type="number" placeholder="Ancho (pulgadas)" class="p-3 border rounded-xl">
+    <input id="alto" type="number" placeholder="Alto (pulgadas)" class="p-3 border rounded-xl">
+</div>
+
+<!-- DTF (UN SOLO SISTEMA) -->
+<div id="dtfInputs" class="hidden mb-4">
+    <input id="dtfLargo" type="number" placeholder="Largo (pulgadas del archivo)" class="w-full p-3 border rounded-xl">
+</div>
+
+<p id="areaTexto" class="text-xs text-slate-500 font-bold"></p>
+
+<!-- CANTIDAD -->
+<label for="cantidad" class="font-black text-sm uppercase">Cantidad</label>
+<input type="number" id="cantidad" value="1"
+class="w-full mt-2 p-4 rounded-xl border mb-4">
+
+<!-- EXTRAS -->
+<div class="mb-4">
+    <label class="flex items-center gap-3">
+        <input type="checkbox" id="express">
+        Servicio Express (+15%)
+    </label>
+</div>
+
+<!-- RESULTADO -->
+<div class="bg-white p-6 rounded-xl border mb-4">
+    <p class="text-sm text-slate-500">Total estimado:</p>
+    <p class="text-3xl font-black text-blue-600" id="total">RD$ 0</p>
+    <!-- BOTÓN AGREGAR AL CARRITO -->
+<button type="button" onclick="agregarAlCarrito()"
+class="w-full mt-4 flex items-center justify-center gap-3 bg-black text-white py-3 rounded-xl font-semibold">
+
+    <i class="fas fa-cart-plus text-lg"></i>
+    <span class="text-sm uppercase tracking-wider">Agregar al carrito</span>
+
+</button>
+
+<!-- CARRITO -->
+<div class="mt-6 bg-white border rounded-xl p-4">
+    <h3 class="font-black text-sm uppercase mb-3">Carrito</h3>
+
+    <!-- MINI CARRITO -->
+    <div id="carritoItemsMini" class="space-y-2 text-sm"></div>
+
+    <div class="mt-4 border-t pt-3 font-black flex justify-between items-center">
+        <span>Total Carrito:</span>
+        <span id="carritoTotalMini">RD$ 0</span>
+    </div>
+
+</div>
+
+<button onclick="enviarCotizacion()"
+class="w-full bg-blue-600 hover:bg-blue-700 transition text-white font-black uppercase py-4 rounded-xl">
+    Enviar cotización por WhatsApp
+</button>
+
+</div>
+</div>
+</section>
+
+<script>
+
+// ==========================
+// CAMBIO DE SERVICIO
+// ==========================
+function cambiarModoServicio() {
+
+    let servicio = document.getElementById("servicio").value;
+
+    const eco = document.getElementById("ecoInputs");
+    const dtf = document.getElementById("dtfInputs");
+    const cantidad = document.getElementById("cantidad");
+
+    eco.classList.add("hidden");
+    dtf.classList.add("hidden");
+
+    cantidad.readOnly = false;
+
+    // ECO
+    if (
+        servicio === "lona" ||
+        servicio === "vinyl" ||
+        servicio === "sticker" ||
+        servicio === "onevision"
+    ) {
+        eco.classList.remove("hidden");
+        cantidad.readOnly = true;
+    }
+
+    // DTF
+    if (servicio === "dtf") {
+        dtf.classList.remove("hidden");
+        cantidad.readOnly = false;
+    }
+}
+
+// ==========================
+// ECO CALCULO
+// ==========================
+function calcularEco() {
+
+    let servicio = document.getElementById("servicio").value;
+
+    if (
+        servicio === "lona" ||
+        servicio === "vinyl" ||
+        servicio === "sticker" ||
+        servicio === "onevision"
+    ) {
+
+        let ancho = parseFloat(document.getElementById("ancho").value) || 0;
+        let alto = parseFloat(document.getElementById("alto").value) || 0;
+
+        let pies = (ancho * alto) / 144;
+
+        document.getElementById("cantidad").value = pies.toFixed(2);
+
+        document.getElementById("areaTexto").innerText =
+            "Área: " + pies.toFixed(2) + " pies²";
+    }
+}
+
+// ==========================
+// DTF
+// ==========================
+function calcularDTF() {
+
+    let servicio = document.getElementById("servicio").value;
+
+    if (servicio === "dtf") {
+
+        let largo = parseFloat(document.getElementById("dtfLargo").value) || 0;
+
+        // 36 pulgadas = 1 yarda
+        let yardas = largo / 36;
+
+        if (largo > 0) {
+            document.getElementById("cantidad").value = yardas.toFixed(2);
+        }
+    }
+}
+
+// ==========================
+// CONTROLAR INPUTS
+// ==========================
+function controlarCantidad() {
+
+    let servicio = document.getElementById("servicio").value;
+    let cantidad = document.getElementById("cantidad");
+
+    if (
+        servicio === "lona" ||
+        servicio === "vinyl" ||
+        servicio === "sticker" ||
+        servicio === "onevision"
+    ) {
+        cantidad.readOnly = true;
+    } else {
+        cantidad.readOnly = false;
+    }
+}
+
+// ==========================
+// TOTAL
+// ==========================
+
+function formatoRD(valor) {
+
+    return Number(valor).toLocaleString("es-DO", {
+
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+
+    });
+
+}
+
+function calcularTotal() {
+
+    let servicio = document.getElementById("servicio").value;
+
+    let cantidad =
+        parseFloat(document.getElementById("cantidad").value) || 1;
+
+    let express =
+        document.getElementById("express").checked;
+
+    let base = 0;
+
+    switch (servicio) {
+
+        case "dtf":
+            base = 350;
+            break;
+
+        case "laser_30":
+            base = 650;
+            break;
+
+        case "laser_60":
+            base = 1300;
+            break;
+
+        case "cnc":
+            base = 1200;
+            break;
+
+        case "lona":
+        case "vinyl":
+            base = 45;
+            break;
+
+        case "sticker":
+            base = 75;
+            break;
+
+        case "onevision":
+            base = 90;
+            break;
+
+        default:
+            base = 0;
+    }
+
+    let total = base * cantidad;
+
+    // DESCUENTO DTF
+    if (servicio === "dtf") {
+
+        if (cantidad >= 40) {
+            total *= 0.85;
+        }
+        else if (cantidad >= 20) {
+            total *= 0.90;
+        }
+    }
+
+    // EXPRESS
+    if (express) {
+        total *= 1.15;
+    }
+
+    document.getElementById("total").innerText =
+        "RD$ " + formatoRD(total);
+
+    return total;
+}
+
+// ==========================
+// WHATSAPP
+// ==========================
+function enviarCotizacion() {
+
+    let servicio =
+        document.getElementById("servicio").value;
+
+    let cantidad =
+        document.getElementById("cantidad").value;
+
+    let total = calcularTotal();
+
+    const texto =
+        `Hola Manna Studio 👋%0A%0A` +
+        `Servicio: ${servicio}%0A` +
+        `Cantidad: ${cantidad}%0A` +
+        `Total estimado: RD$ ${total.toFixed(2)}`;
+
+    window.open(
+        `https://wa.me/18099948009?text=${texto}`,
+        "_blank"
+    );
+}
+
+// ==========================
+// EVENTOS
+// ==========================
+document.addEventListener("input", function () {
+
+    calcularEco();
+    calcularDTF();
+    calcularTotal();
+});
+
+document.addEventListener("change", function () {
+
+    cambiarModoServicio();
+    controlarCantidad();
+
+    calcularEco();
+    calcularDTF();
+    calcularTotal();
+});
+
+// ==========================
+// CARRITO
+// ==========================
+let carrito = [];
+
+// ==========================
+// CARGAR CARRITO
+// ==========================
+function cargarCarrito() {
+
+    const carritoGuardado =
+        localStorage.getItem("mannaCart");
+
+    if (carritoGuardado) {
+
+        carrito = JSON.parse(carritoGuardado);
+
+        renderCarrito();
+
+        actualizarContadorCarrito();
+    }
+}
+
+function actualizarContadorCarrito() {
+
+    const cartCount = document.getElementById("cartCount");
+
+    if (!cartCount) return;
+
+    let totalItems = carrito.length;
+
+    cartCount.innerText = totalItems;
+
+    // ocultar badge si está vacío
+    if (totalItems <= 0) {
+
+        cartCount.classList.add("scale-0", "opacity-0");
+
+    } else {
+
+        cartCount.classList.remove("scale-0", "opacity-0");
+
+        // animación pop
+        cartCount.classList.remove("animate-ping");
+
+        void cartCount.offsetWidth;
+
+        cartCount.classList.add("animate-ping");
+
+        setTimeout(() => {
+            cartCount.classList.remove("animate-ping");
+        }, 500);
+    }
+}
+
+// ==========================
+// TOAST
+// ==========================
+function mostrarToast(mensaje) {
+
+    let toast = document.createElement("div");
+
+    toast.innerText = mensaje;
+
+    toast.style.position = "fixed";
+    toast.style.bottom = "100px";
+    toast.style.right = "20px";
+    toast.style.background = "#111";
+    toast.style.color = "#fff";
+    toast.style.padding = "12px 16px";
+    toast.style.borderRadius = "12px";
+    toast.style.fontWeight = "bold";
+    toast.style.zIndex = "9999";
+    toast.style.opacity = "0";
+    toast.style.transition = "0.3s";
+
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+        toast.style.opacity = "1";
+    }, 50);
+
+    setTimeout(() => {
+
+        toast.style.opacity = "0";
+
+        setTimeout(() => {
+            toast.remove();
+        }, 300);
+
+    }, 1500);
+}
+
+// ==========================
+// GUARDAR CARRITO
+// ==========================
+function guardarCarrito() {
+
+    localStorage.setItem(
+        "mannaCart",
+        JSON.stringify(carrito)
+    );
+}
+// ==========================
+// AGREGAR AL CARRITO
+// ==========================
+function agregarAlCarrito() {
+
+    let servicio =
+        document.getElementById("servicio").value;
+
+    let cantidad =
+        parseFloat(document.getElementById("cantidad").value) || 1;
+
+    let total = calcularTotal();
+
+    if (!servicio || total <= 0) {
+
+        mostrarToast("Selecciona un servicio");
+        return;
+    }
+
+    let item = {
+        servicio,
+        cantidad,
+        total
+    };
+
+    const itemExistente = carrito.find(
+    i => i.servicio === servicio
+);
+
+if (itemExistente) {
+
+    itemExistente.cantidad += cantidad;
+
+    itemExistente.total += total;
+
+} else {
+
+    carrito.push(item);
+}
+
+    renderCarrito();
+
+    guardarCarrito();
+
+    actualizarContadorCarrito();
+
+    mostrarToast("Agregado al carrito ✔");
+
+    // abrir drawer automáticamente
+    toggleCarritoDrawer(true);
+}
+// ==========================
+// RENDER
+// ==========================
+
+function nombreServicio(servicio) {
+
+    const nombres = {
+
+        dtf: "DTF Textil",
+
+        laser_30: "Láser 30 Min",
+
+        laser_60: "Láser 1 Hora",
+
+        cnc: "Router CNC",
+
+        lona: "Lona Ecosolvente",
+
+        vinyl: "Vinyl Adhesivo",
+
+        sticker: "Etiquetas / Stickers",
+
+        onevision: "One Vision",
+
+        sublimacion: "Sublimación",
+
+        bordado: "Bordado"
+
+    };
+
+    return nombres[servicio] || servicio;
+}
+
+function renderCarrito() {
+
+    let contMini =
+        document.getElementById("carritoItemsMini");
+
+    let contDrawer =
+        document.getElementById("carritoItems");
+
+    contMini.innerHTML = "";
+    contDrawer.innerHTML = "";
+
+    let totalGeneral = 0;
+
+    carrito.forEach((item, index) => {
+
+        totalGeneral += item.total;
+
+        let html = `
+            <div class="flex justify-between items-start border-b pb-3 gap-3">
+
+                <div class="flex-1">
+
+                    <p class="font-black uppercase text-xs">
+                        ${nombreServicio(item.servicio)}
+                    </p>
+
+                    <div class="flex items-center gap-2 mt-2">
+
+    <button
+    onclick="cambiarCantidad(${index}, -1)"
+    class="w-6 h-6 rounded bg-slate-200 hover:bg-slate-300 font-black">
+
+        -
+
+    </button>
+
+    <span class="text-xs font-bold min-w-[20px] text-center">
+        ${item.cantidad}
+    </span>
+
+    <button
+    onclick="cambiarCantidad(${index}, 1)"
+    class="w-6 h-6 rounded bg-slate-200 hover:bg-slate-300 font-black">
+
+        +
+
+    </button>
+
+</div>
+
+                </div>
+
+                <div class="text-right">
+
+                    <p class="font-black text-sm">
+                        RD$ ${formatoRD(item.total)}
+                    </p>
+
+                    <button
+                    onclick="eliminarItem(${index})"
+                    class="text-red-500 hover:text-red-700 text-xs font-bold mt-1">
+                        Eliminar
+                    </button>
+
+                </div>
+
+            </div>
+        `;
+
+        contMini.innerHTML += html;
+        contDrawer.innerHTML += html;
+    });
+
+        // MINI TOTAL
+    document.getElementById("carritoTotalMini").innerText =
+        "RD$ " + totalGeneral.toFixed(2);
+
+    // DRAWER TOTAL
+    document.getElementById("carritoTotal").innerText =
+        "RD$ " + totalGeneral.toFixed(2);
+
+    localStorage.setItem(
+        "mannaCart",
+        JSON.stringify(carrito)
+    );
+
+    actualizarContadorCarrito();
+}
+
+// ==========================
+// ELIMINAR ITEM
+// ==========================
+function eliminarItem(index) {
+
+    if (!carrito[index]) return;
+
+    carrito.splice(index, 1);
+
+    guardarCarrito();
+
+    renderCarrito();
+
+    actualizarContadorCarrito();
+
+    mostrarToast("Producto eliminado");
+}
+// ==========================
+// ELIMINAR ITEM
+// ==========================
+function cambiarCantidad(index, cambio) {
+
+    if (!carrito[index]) return;
+
+    // sacar precio unitario antes del cambio
+    let precioUnitario =
+        carrito[index].total /
+        carrito[index].cantidad;
+
+    // cambiar cantidad
+    carrito[index].cantidad += cambio;
+
+    // eliminar si llega a 0
+    if (carrito[index].cantidad <= 0) {
+
+        carrito.splice(index, 1);
+
+        renderCarrito();
+
+        actualizarContadorCarrito();
+
+        mostrarToast("Producto eliminado");
+
+        return;
+    }
+
+    // recalcular total
+    carrito[index].total =
+        precioUnitario *
+        carrito[index].cantidad;
+
+        guardarCarrito();
+
+    renderCarrito();
+
+    actualizarContadorCarrito();
+
+    mostrarToast("Cantidad actualizada");
+}
+
+function vaciarCarrito() {
+
+    carrito = [];
+
+    renderCarrito();
+
+    actualizarContadorCarrito();
+
+    localStorage.removeItem("mannaCart");
+
+    mostrarToast("Carrito vaciado");
+}
+
+// ==========================
+// WHATSAPP CARRITO
+// ==========================
+function enviarCarritoWhatsApp() {
+
+    if (carrito.length === 0) {
+
+        mostrarToast("Tu carrito está vacío");
+        return;
+    }
+
+    let texto =
+        "Hola Manna Studio, Mi nombre es [Tu Nombre] %0A%0A" +
+        "Quiero cotizar:%0A%0A";
+
+    let total = 0;
+
+    carrito.forEach(item => {
+
+        total += item.total;
+
+        texto +=
+            `• ${nombreServicio(item.servicio)} x ${item.cantidad} = RD$ ${formatoRD(item.total)}%0A`;
+    });
+
+    texto +=
+        `%0A🛒 TOTAL: RD$ ${formatoRD(total)}`;
+
+    window.open(
+        `https://wa.me/18099948009?text=${texto}`,
+        "_blank"
+    );
+}
+
+</script>
+
+<section id="ubicacion" class="py-20 px-6 max-w-7xl mx-auto">
+    <div class="bg-white rounded-[3rem] overflow-hidden shadow-2xl border border-slate-100 p-8 flex flex-col md:flex-row gap-12 items-center">
+
+        <div class="md:w-1/3">
+
+            <h2 class="text-4xl font-black text-slate-900 mb-6 uppercase italic">
+                Nuestra <span class="text-blue-600">Ubicación</span>
+            </h2>
+
+            <p class="font-bold text-slate-500 leading-relaxed mb-8">
+                Visítanos, estamos ubicados en el triángulo de Villa Francisca.
+            </p>
+
+            <div class="space-y-4">
+
+                <p class="flex items-center gap-3 font-black text-xs uppercase italic tracking-widest">
+                    <i class="fas fa-map-marker-alt text-blue-600"></i>
+                    Calle Josefa Brea, 46 SD.
+                </p>
+
+                <p class="flex items-center gap-3 font-black text-xs uppercase italic tracking-widest">
+                    <i class="fas fa-clock text-blue-600"></i>
+                    Lun - Sab | 9:00 AM - 7:00 PM
+                    <br>
+                    Dom | CERRADO
+                </p>
+
+                <a href="https://maps.app.goo.gl/ZfSAgkHyuR9hKtBMA"
+                target="_blank" rel="noopener noreferrer"
+                class="inline-block mt-4 text-blue-600 font-black underline uppercase text-[10px] tracking-widest">
+
+                    Abrir en Google Maps
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="md:w-2/3 h-[450px] w-full rounded-[2rem] overflow-hidden border-4 border-slate-50 shadow-inner">
+
+            <iframe 
+            title="Mapa de ubicación de Manna Studio"
+            class="w-full h-full"
+            src="https://maps.google.com/maps?q=18.4818788,-69.8857754&amp;hl=es&amp;z=17&amp;output=embed" 
+            style="border:0;" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+
+        </div>
+
+    </div>
+</section>
+
+<footer id="footer" class="footer-tek pt-20 pb-10 px-6 md:px-20">
+
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
+
+        <div>
+
+            <a href="#top" class="inline-block mb-8">
+                <img src="MANNAB.png" class="h-16" alt="Logo">
+            </a>
+
+            <p class="text-white/50 text-xs leading-relaxed mb-8">
+                Comprometidos con entregas rápidas y resultados impecables.
+            </p>
+
+            <div class="flex items-center gap-4 text-white/70">
+                <a href="tel:+18099948009" aria-label="Llamar a Manna Studio" class="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 p-3 transition hover:border-blue-500 hover:text-blue-500">
+                    <i class="fas fa-phone-alt text-xl"></i>
+                </a>
+                <a href="https://wa.me/18099948009" target="_blank" aria-label="WhatsApp Manna Studio" class="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 p-3 transition hover:border-blue-500 hover:text-blue-500">
+                    <i class="fab fa-whatsapp text-xl"></i>
+                </a>
+                <a href="https://www.instagram.com/mannastudiodr" target="_blank" aria-label="Instagram Manna Studio" class="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 p-3 transition hover:border-blue-500 hover:text-blue-500">
+                    <i class="fab fa-instagram text-xl"></i>
+                </a>
+                <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=mannastudio323@gmail.com" target="_blank" aria-label="Enviar correo a Manna Studio" class="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 p-3 transition hover:border-blue-500 hover:text-blue-500">
+                    <i class="fas fa-envelope text-xl"></i>
+                </a>
+            </div>
+
+        </div>
+
+        <div>
+
+            <h3 class="footer-col-title">Servicios</h3>
+
+            <ul class="space-y-3 text-xs font-bold text-white/60 uppercase italic tracking-widest">
+
+                <li><a href="#" class="hover:text-blue-500 transition-colors">DTF Textil Industrial</a></li>
+
+                <li><a href="#" class="hover:text-blue-600 transition-colors">DTF UV para Rígidos</a></li>
+
+                <li><a href="#" class="hover:text-blue-500 transition-colors">Bordado en Gorras / Polos</a></li>
+
+                <li><a href="#" class="hover:text-blue-600 transition-colors">Sublimación Profesional</a></li>
+
+            </ul>
+
+        </div>
+
+        <div>
+
+            <h3 class="footer-col-title">Empresa</h3>
+
+            <ul class="space-y-3 text-xs font-bold text-white/60 uppercase italic tracking-widest">
+
+                <li><a href="#" class="hover:text-blue-500 transition-colors">Nuestros Trabajos</a></li>
+
+                <li><a href="#" class="hover:text-blue-500 transition-colors">Ubícanos</a></li>
+
+                <li><a href="#" class="hover:text-blue-600 transition-colors">Preguntas Frecuentes</a></li>
+
+                <li><a href="#" class="hover:text-blue-500 transition-colors">Términos de Servicio</a></li>
+
+            </ul>
+
+        </div>
+
+        <div>
+
+            <h3 class="footer-col-title">Suscripción</h3>
+
+            <form id="subscriptionForm" class="flex gap-2 mb-8" onsubmit="return subscribeFooterEmail(event)">
+                <input id="subscriptionEmail" type="email"
+                    placeholder="Tu email..."
+                    class="bg-white/10 border border-white/10 p-3 rounded-lg flex-1 outline-none focus:border-blue-600 text-xs"
+                    required>
+
+                <button type="submit" class="bg-blue-600 p-3 rounded-lg">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
+
+            <p id="subscriptionMessage" class="text-[10px] text-white/60 uppercase tracking-[0.2em] hidden">Gracias, se abrirá tu correo para confirmar la suscripción.</p>
+
+            <h3 class="footer-col-title mt-8">Métodos de Pago</h3>
+
+            <div class="flex items-center gap-4 opacity-80 transition-all">
+
+                <button type="button" class="payment-bank-btn inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 p-3 text-white/90 transition hover:border-blue-500 hover:text-blue-500" data-bank="bhd" aria-label="Cuenta BHD">
+                    <img src="logobhd.webp" alt="BHD" loading="lazy" class="h-8 w-auto object-contain">
+                </button>
+
+                <button type="button" class="payment-bank-btn inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 p-3 text-white/90 transition hover:border-blue-500 hover:text-blue-500" data-bank="popular" aria-label="Cuenta Popular">
+                    <img src="popular.webp" alt="Popular" loading="lazy" class="h-8 w-auto object-contain">
+                </button>
+
+            </div>
+
+            <div id="bankDetails" class="mt-4 hidden rounded-3xl border border-white/10 bg-white/5 p-4 text-sm text-white/80">
+                <div id="bhdDetails" class="bank-detail hidden">
+                    <div class="font-black uppercase tracking-[0.3em] mb-2">BHD Ahorro</div>
+                    <p class="mb-1">2853810014</p>
+                    <p class="text-xs opacity-70">Heinuel Jiménez</p>
+                </div>
+                <div id="popularDetails" class="bank-detail hidden">
+                    <div class="font-black uppercase tracking-[0.3em] mb-2">Popular Corriente</div>
+                    <p class="mb-1">842422388</p>
+                    <p class="text-xs opacity-70">Heinuel Jiménez</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="border-t border-white/5 pt-10 flex flex-col md:flex-row justify-between items-center gap-6">
+
+        <p class="text-[9px] font-black opacity-30 uppercase tracking-[0.5em]">
+            Copyright © 2026 Manna Studio
+        </p>
+
+    </div>
+
+</footer>
+
+<!-- BOTÓN FLOTANTE DEL CARRITO -->
+<div class="fixed bottom-6 right-20 z-50">
+
+    <button type="button" aria-label="Abrir carrito" onclick="toggleCarritoDrawer()"
+    class="bg-black text-white w-14 h-14 rounded-full shadow-xl flex items-center justify-center relative hover:scale-110 transition-all duration-300">
+
+        <i class="fas fa-shopping-cart"></i>
+
+        <!-- CONTADOR -->
+        <span id="cartCount"
+class="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full transition-all duration-300 scale-0 opacity-0">
+            0
+        </span>
+
+    </button>
+
+</div>
+
+<!-- OVERLAY -->
+<div id="cartOverlay"
+class="fixed inset-0 bg-black/40 hidden z-40"
+onclick="toggleCarritoDrawer()"></div>
+
+<!-- DRAWER -->
+<div id="cartDrawer"
+class="fixed top-0 right-0 h-full w-[350px] bg-white shadow-2xl z-50 transform translate-x-full transition-all duration-300">
+
+    <div class="p-4 border-b flex justify-between items-center">
+
+        <h2 class="font-black uppercase">
+            Carrito
+        </h2>
+
+        <button type="button" aria-label="Cerrar carrito" onclick="toggleCarritoDrawer()">
+            ✕
+        </button>
+
+    </div>
+
+    <!-- ITEMS -->
+    <div id="carritoItems"
+    class="p-4 space-y-3 text-sm overflow-y-auto h-[70%]">
+    </div>
+
+    <div class="p-4 border-t">
+
+        <div class="font-black mb-3">
+            Total:
+            <span id="carritoTotal">
+                RD$ 0
+            </span>
+        </div>
+
+        <button
+    onclick="vaciarCarrito()"
+    class="w-full mb-3 border border-red-500 text-red-500 font-black py-3 rounded-xl hover:bg-red-500 hover:text-white transition-all">
+
+        Vaciar carrito
+
+    </button>
+
+</div>
+
+        <button onclick="enviarCarritoWhatsApp()"
+        class="w-full bg-green-500 hover:bg-green-600 transition text-white font-black py-3 rounded-xl">
+
+            Enviar por WhatsApp
+
+        </button>
+        <button type="button" onclick="sendCartEmail()" class="mt-3 w-full border border-slate-300 text-slate-900 bg-white hover:bg-slate-100 font-black py-3 rounded-xl transition-all">Enviar cotización por email</button>
+
+    </div>
+
+</div>
+
+<!-- BOTÓN FLOTANTE DE CTA -->
+<a href="#cotizador" class="fixed bottom-20 right-6 z-50 fixed-cta focus-visible-ring" aria-label="Ir a cotizador">
+
+<!-- BOTÓN WHATSAPP -->
+<div class="fixed bottom-6 right-6 group z-50">
+
+    <a href="https://wa.me/18099948009?text=Hola%20quiero%20cotizar"
+    aria-label="Enviar mensaje por WhatsApp"
+    class="bg-green-500 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-xl hover:scale-110 transition-all">
+
+        <i class="fab fa-whatsapp text-2xl"></i>
+
+    </a>
+
+    <div class="absolute right-16 bottom-3 bg-black text-white text-xs px-3 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition">
+
+        Escríbenos
+
+    </div>
+
+</div>
+
+<script>
+
+// ==========================
+// DRAWER
+// ==========================
+function toggleCarritoDrawer(forceOpen = false) {
+
+    const drawer =
+        document.getElementById("cartDrawer");
+
+    const overlay =
+        document.getElementById("cartOverlay");
+
+    const isOpen =
+        drawer.classList.contains("translate-x-0");
+
+    if (isOpen && !forceOpen) {
+
+        drawer.classList.remove("translate-x-0");
+        drawer.classList.add("translate-x-full");
+
+        overlay.classList.add("hidden");
+
+    } else {
+
+        drawer.classList.remove("translate-x-full");
+        drawer.classList.add("translate-x-0");
+
+        overlay.classList.remove("hidden");
+    }
+}
+
+// ==========================
+// CARRUSEL
+// ==========================
+let currentSlide = 0;
+
+const totalSlides = 5;
+
+const mainCarousel =
+    document.getElementById('mainCarousel');
+
+const dots =
+    document.querySelectorAll('.dot');
+
+function updateCarousel() {
+
+    if (!mainCarousel) return;
+
+    mainCarousel.style.transform =
+        `translateX(-${currentSlide * 20}%)`;
+
+    dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentSlide);
+    });
+}
+
+function goSlide(n) {
+
+    currentSlide = n;
+
+    updateCarousel();
+}
+
+setInterval(() => {
+
+    currentSlide =
+        (currentSlide + 1) % totalSlides;
+
+    updateCarousel();
+
+}, 5000);
+
+// ==========================
+// OFERTAS
+// ==========================
+function scrollOffers(direction) {
+
+    const slider =
+        document.getElementById('offersSlider');
+
+    if (!slider) return;
+
+    const scrollAmount = slider.clientWidth;
+
+    slider.scrollBy({
+        left: direction * scrollAmount,
+        behavior: 'smooth'
+    });
+}
+
+// ==========================
+// PRODUCTOS
+// ==========================
+let productScroll = 0;
+
+const productContainer =
+    document.getElementById('productContainer');
+
+const productCards =
+    document.querySelectorAll('.product-card');
+
+const totalProducts =
+    productCards.length;
+
+function nextProduct() {
+
+    const visibleCards =
+        window.innerWidth > 1024 ? 4 :
+        (window.innerWidth > 640 ? 2 : 1);
+
+    if (productScroll < totalProducts - visibleCards) {
+
+        productScroll++;
+
+        updateProductSlider();
+    }
+}
+
+function prevProduct() {
+
+    if (productScroll > 0) {
+
+        productScroll--;
+
+        updateProductSlider();
+    }
+}
+
+function updateProductSlider() {
+
+    if (!productCards.length || !productContainer) return;
+
+    const cardWidth =
+        productCards[0].offsetWidth + 20;
+
+    productContainer.style.transform =
+        `translateX(-${productScroll * cardWidth}px)`;
+}
+
+// ==========================
+// VIDEO PRODUCTOS
+const videoModal = document.getElementById('videoModal');
+const videoFrame = document.getElementById('videoFrame');
+const videoPlayer = document.getElementById('videoPlayer');
+const videoSource = document.getElementById('videoSource');
+const videoUnavailable = document.getElementById('videoUnavailable');
+
+function openVideoModal(src) {
+    if (!src || !videoModal) return;
+
+    videoFrame.classList.add('hidden');
+    videoPlayer.classList.add('hidden');
+    videoUnavailable.classList.add('hidden');
+
+    if (src.includes('youtube.com') || src.includes('youtu.be')) {
+        videoFrame.src = normalizeYouTubeEmbed(src);
+        videoFrame.classList.remove('hidden');
+    } else {
+        videoSource.src = src;
+        videoPlayer.load();
+        videoPlayer.classList.remove('hidden');
+    }
+
+    videoModal.classList.remove('hidden');
+}
+
+function normalizeYouTubeEmbed(src) {
+    if (src.includes('youtube.com/embed/')) {
+        return src + (src.includes('?') ? '&' : '?') + 'autoplay=1';
+    }
+
+    if (src.includes('watch?v=')) {
+        return src.replace('watch?v=', 'embed/') + '?autoplay=1';
+    }
+
+    if (src.includes('youtu.be/')) {
+        const videoId = src.split('youtu.be/').pop().split(/[?&]/)[0];
+        return `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+    }
+
+    return src;
+}
+
+function closeVideoModal() {
+    if (!videoModal) return;
+
+    videoFrame.src = '';
+    if (videoPlayer) {
+        videoPlayer.pause();
+        videoPlayer.currentTime = 0;
+    }
+
+    videoModal.classList.add('hidden');
+}
+
+function attachProductVideoListeners() {
+    const videoCards = document.querySelectorAll('.product-card[data-video]');
+
+    videoCards.forEach(card => {
+        const src = card.dataset.video;
+
+        card.addEventListener('click', () => openVideoModal(src));
+        card.addEventListener('keydown', event => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                openVideoModal(src);
+            }
+        });
+    });
+}
+
+attachProductVideoListeners();
+
+function setProductAriaLabels() {
+    document.querySelectorAll('.product-card').forEach(card => {
+        const title = card.querySelector('h3')?.innerText || 'producto';
+        card.setAttribute('aria-label', `Ver video: ${title}`);
+    });
+}
+
+function filterPortfolio(category) {
+    const items = document.querySelectorAll('.portfolio-item');
+
+    items.forEach(item => {
+        const matches = category === 'all' || item.dataset.category === category;
+        item.classList.toggle('hidden', !matches);
+    });
+
+    document.querySelectorAll('.portfolio-filter-btn').forEach(button => {
+        button.classList.toggle('active', button.dataset.category === category);
+    });
+}
+
+function setupPortfolioFilters() {
+    document.querySelectorAll('.portfolio-filter-btn').forEach(button => {
+        button.addEventListener('click', () => filterPortfolio(button.dataset.category));
+    });
+}
+
+setProductAriaLabels();
+setupPortfolioFilters();
+
+function setupBankDetails() {
+    const buttons = document.querySelectorAll('.payment-bank-btn');
+    const bankDetails = document.getElementById('bankDetails');
+    const bhdDetails = document.getElementById('bhdDetails');
+    const popularDetails = document.getElementById('popularDetails');
+
+    if (!buttons.length || !bankDetails || !bhdDetails || !popularDetails) return;
+
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            const bank = button.dataset.bank;
+
+            bhdDetails.classList.add('hidden');
+            popularDetails.classList.add('hidden');
+
+            if (bank === 'bhd') {
+                bhdDetails.classList.remove('hidden');
+                bankDetails.classList.remove('hidden');
+            }
+
+            if (bank === 'popular') {
+                popularDetails.classList.remove('hidden');
+                bankDetails.classList.remove('hidden');
+            }
+        });
+    });
+}
+
+setupBankDetails();
+
+function applyTheme(theme) {
+    const body = document.body;
+    const themeButton = document.getElementById('themeToggleBtn');
+
+    if (!body || !themeButton) return;
+
+    if (theme === 'dark') {
+        body.classList.add('theme-dark');
+        body.classList.remove('theme-light');
+        themeButton.innerHTML = '<i class="fas fa-sun"></i>';
+        themeButton.setAttribute('aria-label', 'Activar modo claro');
+    } else {
+        body.classList.remove('theme-dark');
+        body.classList.add('theme-light');
+        themeButton.innerHTML = '<i class="fas fa-moon"></i>';
+        themeButton.setAttribute('aria-label', 'Activar modo oscuro');
+    }
+
+    localStorage.setItem('theme', theme);
+}
+
+function loadTheme() {
+    const saved = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = saved ? saved : (prefersDark ? 'dark' : 'light');
+    applyTheme(theme);
+}
+
+function toggleTheme() {
+    const current = document.body.classList.contains('theme-dark') ? 'dark' : 'light';
+    applyTheme(current === 'dark' ? 'light' : 'dark');
+}
+
+const themeButton = document.getElementById('themeToggleBtn');
+if (themeButton) {
+    themeButton.addEventListener('click', toggleTheme);
+}
+
+loadTheme();
+
+// ESTADO
+// ==========================
+function updateStatus() {
+
+    const h = new Date().getHours();
+    const d = new Date().getDay();
+
+    const badge =
+        document.getElementById('statusBadge');
+
+    const text =
+        document.getElementById('statusText');
+
+    const dot =
+        document.getElementById('statusDot');
+
+    const ping =
+        document.getElementById('statusDotPing');
+
+    if (!badge || !text || !dot || !ping) return;
+
+    let isOpen = false;
+
+    if(d >= 1 && d <= 5 && h >= 9 && h < 18)
+        isOpen = true;
+
+    if(d === 6 && h >= 9 && h < 13)
+        isOpen = true;
+
+    if(isOpen) {
+
+        text.innerText = "Abierto";
+
+        dot.classList.add('bg-green-500');
+
+        badge.classList.add('text-green-500');
+
+    } else {
+
+        text.innerText = "Cerrado";
+
+        dot.classList.add('bg-red-500');
+
+        badge.classList.add('text-red-500');
+
+        ping.classList.add('hidden');
+    }
+}
+
+updateStatus();
+
+cargarCarrito();
+
+function subscribeFooterEmail(event) {
+    event.preventDefault();
+
+    const emailInput = document.getElementById('subscriptionEmail');
+    const message = document.getElementById('subscriptionMessage');
+
+    if (!emailInput || !message) return false;
+
+    const email = emailInput.value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email)) {
+        message.textContent = 'Por favor ingresa un correo válido.';
+        message.classList.remove('hidden');
+        return false;
+    }
+
+    const subject = encodeURIComponent('Suscripción a ofertas Manna Studio');
+    const body = encodeURIComponent(
+        `Hola Manna Studio, deseo suscribirme a ofertas y promociones con el correo: ${email}`
+    );
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=mannastudio323@gmail.com&su=${subject}&body=${body}`;
+
+    message.textContent = 'Se está preparando tu correo. Revisa tu Gmail para enviar la suscripción.';
+    message.classList.remove('hidden');
+
+    window.open(gmailUrl, '_blank');
+    return false;
+}
+
+function sendQuickContact(event) {
+    event.preventDefault();
+
+    const name = document.getElementById('contactName').value.trim();
+    const phone = document.getElementById('contactPhone').value.trim();
+    const service = document.getElementById('contactService').value;
+    const message = document.getElementById('contactMessage').value.trim();
+    const feedback = document.getElementById('contactFormMessage');
+
+    if (!name || !phone || !message) {
+        if (feedback) {
+            feedback.textContent = 'Completa nombre, teléfono y mensaje para continuar.';
+            feedback.classList.remove('hidden');
+        }
+        return false;
+    }
+
+    const body = encodeURIComponent(
+        `Hola Manna Studio 👋%0A%0ANombre: ${name}%0AWhatsApp: ${phone}%0AServicio: ${service || 'No especificado'}%0A%0AMensaje: ${message}`
+    );
+
+    if (feedback) {
+        feedback.textContent = 'Abriendo WhatsApp con tu mensaje...';
+        feedback.classList.remove('hidden');
+    }
+
+    window.open(`https://wa.me/18099948009?text=${body}`, '_blank');
+    return false;
+}
+
+function sendQuickEmail() {
+    const name = document.getElementById('contactName').value.trim();
+    const phone = document.getElementById('contactPhone').value.trim();
+    const service = document.getElementById('contactService').value;
+    const messageText = document.getElementById('contactMessage').value.trim();
+    const feedback = document.getElementById('contactFormMessage');
+
+    if (!name || !phone || !messageText) {
+        if (feedback) {
+            feedback.textContent = 'Completa nombre, teléfono y mensaje para continuar.';
+            feedback.classList.remove('hidden');
+        }
+        return false;
+    }
+
+    const subject = encodeURIComponent('Solicitud de cotización - Manna Studio');
+    const body = encodeURIComponent(
+        `Hola Manna Studio,%0A%0AMi nombre es ${name}.%0AWhatsApp: ${phone}%0AServicio: ${service || 'No especificado'}%0A%0AMensaje:%0A${messageText}`
+    );
+    const mailto = `mailto:mannastudio323@gmail.com?subject=${subject}&body=${body}`;
+
+    if (feedback) {
+        feedback.textContent = 'Preparando correo...';
+        feedback.classList.remove('hidden');
+    }
+
+    window.open(mailto, '_blank');
+    return false;
+}
+
+function sendCartEmail() {
+    if (carrito.length === 0) {
+        mostrarToast('Tu carrito está vacío');
+        return;
+    }
+
+    let total = 0;
+    let details = carrito.map(item => {
+        total += item.total;
+        return `${nombreServicio(item.servicio)} x ${item.cantidad} = RD$ ${formatoRD(item.total)}`;
+    }).join('%0A');
+
+    const subject = encodeURIComponent('Solicitud de cotización de carrito - Manna Studio');
+    const body = encodeURIComponent(`Hola Manna Studio,%0A%0AQuiero cotizar estos servicios:%0A%0A${details}%0A%0ATOTAL: RD$ ${formatoRD(total)}%0A%0AGracias.`);
+    const mailtoUrl = `mailto:mannastudio323@gmail.com?subject=${subject}&body=${body}`;
+    window.open(mailtoUrl, '_blank');
+}
+
+function startOfferCountdown() {
+    const daysEl = document.getElementById('offerDays');
+    const hoursEl = document.getElementById('offerHours');
+    const minutesEl = document.getElementById('offerMinutes');
+    const secondsEl = document.getElementById('offerSeconds');
+
+    function getMonthEndDate() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = now.getMonth();
+        const nextMonth = new Date(year, month + 1, 1);
+        nextMonth.setSeconds(-1);
+        nextMonth.setMilliseconds(999);
+        return nextMonth;
+    }
+
+    function update() {
+        const now = new Date();
+        const endDate = getMonthEndDate();
+        const diff = endDate - now;
+
+        if (diff <= 0) {
+            daysEl.textContent = '00';
+            hoursEl.textContent = '00';
+            minutesEl.textContent = '00';
+            secondsEl.textContent = '00';
+            return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+
+        daysEl.textContent = String(days).padStart(2, '0');
+        hoursEl.textContent = String(hours).padStart(2, '0');
+        minutesEl.textContent = String(minutes).padStart(2, '0');
+        secondsEl.textContent = String(seconds).padStart(2, '0');
+    }
+
+    update();
+    setInterval(update, 1000);
+}
+
+function openPortfolioModal(title, description, imageHtml) {
+    const modal = document.getElementById('portfolioModal');
+    const titleEl = document.getElementById('portfolioModalTitle');
+    const descEl = document.getElementById('portfolioModalDesc');
+    const imageEl = document.getElementById('portfolioModalImage');
+
+    if (!modal || !titleEl || !descEl || !imageEl) return;
+
+    titleEl.textContent = title;
+    descEl.textContent = description;
+    imageEl.innerHTML = imageHtml;
+    modal.classList.add('open');
+}
+
+function closePortfolioModal() {
+    const modal = document.getElementById('portfolioModal');
+    if (!modal) return;
+    modal.classList.remove('open');
+}
+
+function setupPortfolioLightbox() {
+    document.querySelectorAll('.portfolio-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const title = item.dataset.title || item.querySelector('span')?.innerText || 'Detalle';
+            const description = item.dataset.detail || item.querySelector('p')?.innerText || 'Más información disponible.';
+            const src = item.dataset.image || '';
+            const imageHtml = src ? `<img src="${src}" alt="${title}" class="w-full h-full object-cover" loading="lazy">` : `<div class="text-slate-500">Imagen no disponible</div>`;
+            openPortfolioModal(title, description, imageHtml);
+        });
+        item.addEventListener('keydown', event => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                item.click();
+            }
+        });
+    });
+}
+
+function setupScrollReveal() {
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+}
+
+startOfferCountdown();
+setupPortfolioLightbox();
+setupScrollReveal();
+
+function hidePageLoader() {
+    const loader = document.getElementById('pageLoader');
+    if (!loader) return;
+    loader.classList.add('page-loader-hidden');
+    loader.addEventListener('transitionend', () => loader.remove(), { once: true });
+}
+
+window.addEventListener('load', () => {
+    setTimeout(hidePageLoader, 1300);
+});
+</script>
+    <script src="./supabase-config.js"></script>
+    <div class="neon-border">
+        <div class="neon-border-line"></div>
+    </div>
+
+</body>
+</html>
