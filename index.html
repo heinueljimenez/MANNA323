@@ -427,6 +427,22 @@
     <div id="pageLoader" class="page-loader" aria-hidden="true">
         <img src="isotipo.webp" alt="Isotipo Manna Studio" />
     </div>
+    <script>
+        function hidePageLoader() {
+            const loader = document.getElementById('pageLoader');
+            if (!loader) return;
+            loader.remove();
+        }
+
+        if (document.readyState !== 'loading') {
+            setTimeout(hidePageLoader, 150);
+        } else {
+            document.addEventListener('DOMContentLoaded', () => setTimeout(hidePageLoader, 150));
+        }
+
+        setTimeout(hidePageLoader, 3000);
+    </script>
+
     <div class="header-top py-2 px-6 md:px-12 flex justify-between items-center">
         <div class="flex items-center gap-6">
             <div class="flex gap-4">
@@ -467,7 +483,6 @@
             <a href="#ubicacion" class="hover:text-blue-600 transition-colors">Ubicación</a>
             <a href="#ofertas-especiales" class="hover:text-blue-600 transition-colors">Ofertas</a>
             <a href="#portafolio" class="hover:text-blue-600 transition-colors">Portafolio</a>
-            <a href="#contacto" class="hover:text-blue-600 transition-colors">Contacto</a>
         </div>
 
         <div class="hidden lg:flex items-center gap-3">
@@ -883,59 +898,7 @@
         </div>
     </section>
 
-    <section id="contacto" class="py-24 bg-blue-950 text-white">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="grid gap-10 lg:grid-cols-2 items-center">
-                <div>
-                    <span class="text-blue-400 uppercase tracking-[0.35em] text-xs font-black">Contacto rápido</span>
-                    <h2 class="text-4xl font-black uppercase italic mt-4">Escríbenos y te cotizamos ya</h2>
-                    <p class="text-slate-300 mt-5">Completa este formulario y te responderemos con el mejor precio, tiempo y recomendaciones para tu proyecto.</p>
-                    <div class="mt-10 space-y-4 text-sm text-slate-300">
-                        <p><strong>Teléfono:</strong> <a href="tel:+18099948009" class="underline text-white">809-994-8009</a></p>
-                        <p><strong>Email:</strong> <a href="mailto:mannastudio323@gmail.com" class="underline text-white">mannastudio323@gmail.com</a></p>
-                        <p><strong>Ubicación:</strong> Calle Josefa Brea 46, SD</p>
-                    </div>
-                </div>
-                <div class="contact-card rounded-[2rem] bg-slate-900 border border-white/10 p-8 shadow-2xl">
-                    <form id="quickContactForm" onsubmit="return sendQuickContact(event)">
-                        <div class="grid gap-4">
-                            <input id="contactName" type="text" placeholder="Tu nombre" class="contact-input w-full rounded-3xl p-4 focus-visible-ring" required>
-                            <input id="contactPhone" type="tel" placeholder="WhatsApp o teléfono" class="contact-input w-full rounded-3xl p-4 focus-visible-ring" required>
-                            <select id="contactService" class="contact-input w-full rounded-3xl p-4 focus-visible-ring">
-                                <option value="">Servicio requerido</option>
-                                <option value="DTF Textil">DTF Textil</option>
-                                <option value="Corte Láser">Corte Láser</option>
-                                <option value="Router CNC">Router CNC</option>
-                                <option value="Lonas y Rotulación">Lonas y Rotulación</option>
-                                <option value="Branding / Diseño">Branding / Diseño</option>
-                            </select>
-                            <textarea id="contactMessage" rows="4" placeholder="Cuéntanos tu proyecto" class="contact-input w-full rounded-3xl p-4 focus-visible-ring" required></textarea>
-                        </div>
-                        <p id="contactFormMessage" class="mt-4 text-sm text-amber-300 hidden" aria-live="polite"></p>
-                        <button type="submit" class="contact-button mt-6 w-full rounded-3xl py-4 font-black uppercase tracking-[0.25em] hover:brightness-110 transition-all">Enviar mensaje por WhatsApp</button>
-                        <button type="button" onclick="sendQuickEmail()" class="mt-4 w-full rounded-3xl border border-white/20 bg-white/10 py-4 font-black uppercase tracking-[0.25em] text-white hover:bg-white/15 transition-all">Enviar por correo</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div id="videoModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 p-6" onclick="if(event.target===this) closeVideoModal()">
-        <div class="relative w-full max-w-5xl overflow-hidden rounded-[2rem] bg-slate-950 shadow-2xl">
-            <button type="button" aria-label="Cerrar video" onclick="closeVideoModal()" class="absolute right-4 top-4 z-20 text-white text-3xl">×</button>
-            <div class="aspect-[16/9] bg-black">
-                <video id="videoPlayer" class="hidden h-full w-full" controls playsinline>
-                    <source id="videoSource" src="" type="video/mp4">
-                    Tu navegador no soporta video HTML5.
-                </video>
-                <iframe id="videoFrame" class="hidden h-full w-full" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                <div id="videoUnavailable" class="hidden h-full w-full flex items-center justify-center text-white">Video no disponible</div>
-            </div>
-            <div class="border-t border-white/10 p-6 text-right">
-                <button type="button" onclick="closeVideoModal()" class="rounded-full bg-white px-6 py-3 font-black uppercase tracking-[0.3em] text-slate-900">Cerrar</button>
-            </div>
-        </div>
-    </div>
+    
 
     <section id="cotizador" class="py-24 bg-white">
 <div class="max-w-5xl mx-auto px-6">
