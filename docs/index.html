@@ -45,7 +45,8 @@
         
         body { 
             font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
+            background-color: #000;
+            color: #e2e8f0;
             scroll-behavior: smooth;
             min-height: 100vh;
             overflow-x: hidden;
@@ -127,10 +128,10 @@
 
         /* Transiciones y Sombras */
         .header-top { background-color: #000; color: #fff; font-size: 11px; }
-        .nav-main { background-color: #fff; border-bottom: 1px solid #eee; }
+        .nav-main { background-color: #000; border-bottom: 1px solid rgba(255,255,255,0.08); }
         
         /* Carrusel Pantalla Completa (Full Width) */
-        .carousel-wrapper { position: relative; width: 100%; overflow: hidden; height: 600px; }
+        .carousel-wrapper { position: relative; width: 100%; overflow: hidden; min-height: 720px; height: 720px; }
         .carousel-slide { 
             display: flex; 
             width: 500%; /* Para 5 imágenes */
@@ -422,7 +423,7 @@
         }
     </style>
 </head>
-<body id="top" class="theme-light selection:bg-blue-600 selection:text-white">
+<body id="top" class="theme-dark selection:bg-blue-600 selection:text-white">
     <div id="pageLoader" class="page-loader" aria-hidden="true">
         <img src="isotipo.webp" alt="Isotipo Manna Studio" />
     </div>
@@ -430,7 +431,7 @@
         <div class="flex items-center gap-6">
             <div class="flex gap-4">
                 <a href="https://www.instagram.com/mannastudiodr" target="_blank" rel="noopener noreferrer" class="hover:text-blue-500"><i class="fab fa-instagram"></i></a>
-                <a href="https://wa.me/18099948009" target="_blank" rel="noopener noreferrer" class="hover:text-blue-500"><i class="fab fa-whatsapp"></i></a>
+                
             </div>
             <span class="hidden md:inline text-white/50">|</span>
             <div class="hidden md:flex items-center gap-2">
@@ -469,29 +470,28 @@
             <a href="#contacto" class="hover:text-blue-600 transition-colors">Contacto</a>
         </div>
 
+        <div class="hidden lg:flex items-center gap-3">
+            <button id="cartToggleBtn" type="button" aria-label="Abrir carrito" onclick="toggleCarritoDrawer()"
+                class="inline-flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 text-white px-4 py-3 hover:border-blue-500 hover:text-blue-500 transition">
+                <i class="fas fa-shopping-cart"></i>
+                <span id="cartCount" class="inline-flex h-6 min-w-[24px] items-center justify-center rounded-full bg-blue-600 px-2 text-[11px] font-black text-white">0</span>
+            </button>
+            <button id="loginBtn" type="button" onclick="loginConGoogle()"
+                class="inline-flex items-center justify-center gap-2 rounded-full border border-white/10 bg-blue-600 px-5 py-3 text-sm font-black uppercase tracking-[0.2em] text-white hover:bg-blue-500 transition">
+                <i class="fab fa-google"></i>
+                Acceder
+            </button>
+            <div id="authGreeting" class="hidden items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-3 text-sm font-black uppercase tracking-[0.15em] text-white"></div>
+        </div>
+
         <button id="themeToggleBtn" type="button" aria-label="Cambiar modo claro u oscuro" class="inline-flex items-center justify-center rounded-full border border-slate-200 bg-slate-900 text-white w-11 h-11 mr-3 hover:bg-slate-800 transition">
             <i class="fas fa-moon"></i>
         </button>
 
-        <button type="button" onclick="document.getElementById('cotizador').scrollIntoView({ behavior: 'smooth' })" 
-class="bg-blue-600 text-white px-6 py-2.5 rounded-lg font-black text-[10px] uppercase tracking-widest hover:bg-slate-900 transition-all shadow-lg shadow-blue-600/20">
-    Cotizar Ahora
-</button>
+        <button type="button" onclick="document.getElementById('cotizador').scrollIntoView({ behavior: 'smooth' })" class="bg-blue-600 text-white px-6 py-2.5 rounded-lg font-black text-[10px] uppercase tracking-widest hover:bg-slate-900 transition-all shadow-lg shadow-blue-600/20">
+            Cotizar Ahora
+        </button>
     </nav>
-
-    <section id="auth-signin" class="bg-slate-100 py-12">
-        <div class="max-w-5xl mx-auto px-6 text-center">
-            <div class="inline-flex flex-col items-center gap-4 rounded-[2rem] border border-slate-200 bg-white p-8 shadow-xl">
-                <span class="text-blue-600 font-black tracking-[0.3em] text-xs uppercase">Acceso seguro</span>
-                <h2 class="text-3xl md:text-4xl font-black text-slate-900 uppercase">Inicia sesión con Google</h2>
-                <p class="max-w-2xl text-slate-600">Accede rápido y seguro con tu cuenta de Google para continuar en el panel de Manna Studio.</p>
-                <button type="button" onclick="loginConGoogle()" class="inline-flex items-center justify-center gap-3 rounded-full bg-slate-900 px-8 py-4 text-white font-black uppercase tracking-[0.2em] transition hover:bg-slate-800 shadow-lg shadow-slate-300/30">
-                    <i class="fab fa-google text-xl"></i>
-                    Iniciar sesión con Google
-                </button>
-            </div>
-        </div>
-    </section>
 
     <section class="carousel-wrapper">
         <div class="carousel-slide" id="mainCarousel">
@@ -541,95 +541,46 @@ class="bg-blue-600 text-white px-6 py-2.5 rounded-lg font-black text-[10px] uppe
         </div>
     </section>
 
-    <section id="ofertas-especiales" class="bg-black py-12">
-        <div class="px-6 mb-8">
-            <span class="text-blue-500 font-black tracking-[0.3em] text-[10px] uppercase">Oportunidades únicas</span>
-            <h2 class="text-white text-3xl font-black italic uppercase tracking-tighter">Ofertas <span class="text-blue-600">Del Mes</span></h2>
-        </div>
-        
-        <div class="offers-container">
-            <button type="button" aria-label="Anterior oferta" class="nav-offer prev" onclick="scrollOffers(-1)"><i class="fas fa-chevron-left"></i></button>
-            <button type="button" aria-label="Siguiente oferta" class="nav-offer next" onclick="scrollOffers(1)"><i class="fas fa-chevron-right"></i></button>
-
-            <div class="grid gap-8 lg:grid-cols-[1.5fr_1fr] mb-10 items-center">
-            <div>
-                <div class="inline-flex items-center gap-3 rounded-full bg-white/10 px-4 py-2 text-white text-xs uppercase tracking-[0.3em] font-black">
-                    <i class="fas fa-bolt"></i>
-                    Oferta limitada
+        <section id="ofertas-especiales" class="bg-black py-16">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10">
+                <div>
+                    <span class="text-blue-500 font-black tracking-[0.3em] text-[10px] uppercase">Ofertas destacadas</span>
+                    <h2 class="text-white text-4xl font-black uppercase tracking-tighter mt-3">3 soluciones rápidas con precio claro</h2>
                 </div>
-                <p class="mt-4 text-slate-300">Aprovecha los precios especiales antes de que termine la promoción del mes.</p>
+                <p class="max-w-xl text-slate-400">Elige el servicio que necesitas y recibe el mejor precio directo desde Manna Studio.</p>
             </div>
-            <div class="counter-card rounded-[2rem] p-6 text-center text-white shadow-xl">
-                <div class="text-xs uppercase tracking-[0.4em] text-blue-400 font-black">Termina en</div>
-                <div class="offer-countdown mt-6 flex flex-wrap justify-center gap-3 text-sm font-black uppercase tracking-[0.15em]">
-                    <span><strong id="offerDays">00</strong><br><small>Días</small></span>
-                    <span><strong id="offerHours">00</strong><br><small>Horas</small></span>
-                    <span><strong id="offerMinutes">00</strong><br><small>Min</small></span>
-                    <span><strong id="offerSeconds">00</strong><br><small>Seg</small></span>
-                </div>
-            </div>
-        </div>
-        <div class="offers-slider" id="offersSlider">
-                <div class="offer-card border-r border-white/10 bg-zinc-900 group">
-                    <div class="h-80 overflow-hidden">
-                        <img src="DTFYARDA-100.webp" alt="Oferta 1" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-white font-black uppercase italic text-xl">10 YARDAS DTF TEXTIL</h3>
-                        <div class="flex items-center gap-3 mt-2">
-                            <span class="text-white/30 line-through font-bold text-sm">RD$ 3,500</span>
-                            <span class="text-blue-500 font-black text-2xl">RD$ 3,000</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="offer-card border-r border-white/10 bg-zinc-900 group">
-                    <div class="h-80 overflow-hidden">
-                        <img src="CORTE_LASER-100.webp" alt="Oferta 2" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-white font-black uppercase italic text-xl">1/2 HORA CORTE LÁSER</h3>
-                        <div class="flex items-center gap-3 mt-2">
-                            <span class="text-white/30 line-through font-bold text-sm">RD$ 750</span>
-                            <span class="text-blue-500 font-black text-2xl">RD$ 550</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="offer-card border-r border-white/10 bg-zinc-900 group">
-                    <div class="h-80 overflow-hidden">
-                        <img src="TAZAS-100.webp" alt="Oferta 3" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-white font-black uppercase italic text-xl">10 TAZAS PERSONALIZADAS</h3>
-                        <div class="flex items-center gap-3 mt-2">
-                            <span class="text-white/30 line-through font-bold text-sm">RD$ 3,500</span>
-                            <span class="text-blue-500 font-black text-2xl">RD$ 2,900</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="offer-card border-r border-white/10 bg-zinc-900 group">
-                    <div class="h-80 overflow-hidden">
-                        <img src="LETRERO-100.webp" alt="Oferta 4" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-white font-black uppercase italic text-xl">LETRERO ACRILICO 30X30</h3>
-                        <div class="flex items-center gap-3 mt-2">
-                            <span class="text-white/30 line-through font-bold text-sm">RD$ 4,750</span>
-                            <span class="text-blue-500 font-black text-2xl">RD$ 3,500</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="offer-card bg-zinc-900 group">
-                    <div class="h-80 overflow-hidden">
-                        <img src="HODDIE-100.webp" alt="Oferta 5" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-white font-black uppercase italic text-xl">HOODIE PERSONALIZADOs</h3>
-                        <div class="flex items-center gap-3 mt-2">
-                            <span class="text-white/30 line-through font-bold text-sm">RD$ 1,650/UND</span>
-                            <span class="text-blue-500 font-black text-2xl">RD$ 1,200</span>
-                        </div>
-                    </div>
-                </div>
+            <div class="grid gap-6 lg:grid-cols-3">
+                <article class="offer-card rounded-[2rem] border border-white/10 bg-zinc-950 p-8 shadow-2xl">
+                    <span class="text-blue-400 uppercase tracking-[0.35em] text-xs font-black">DTF Textil</span>
+                    <h3 class="text-white text-2xl font-black uppercase mt-4">10 yardas a RD$ 3,000</h3>
+                    <p class="text-slate-400 mt-4">Colores vibrantes, tacto suave y entrega lista para producción.</p>
+                    <ul class="mt-6 space-y-3 text-slate-300 text-sm">
+                        <li>Impresión full color</li>
+                        <li>Durabilidad industrial</li>
+                        <li>Perfecto para camisetas y prendas</li>
+                    </ul>
+                </article>
+                <article class="offer-card rounded-[2rem] border border-white/10 bg-zinc-950 p-8 shadow-2xl">
+                    <span class="text-blue-400 uppercase tracking-[0.35em] text-xs font-black">Corte láser</span>
+                    <h3 class="text-white text-2xl font-black uppercase mt-4">30 minutos por RD$ 550</h3>
+                    <p class="text-slate-400 mt-4">Trabajo preciso en acrílico, madera o PVC con acabados de alta calidad.</p>
+                    <ul class="mt-6 space-y-3 text-slate-300 text-sm">
+                        <li>Acabado profesional</li>
+                        <li>Entrega rápida</li>
+                        <li>Ideal para señalética y prototipos</li>
+                    </ul>
+                </article>
+                <article class="offer-card rounded-[2rem] border border-white/10 bg-zinc-950 p-8 shadow-2xl">
+                    <span class="text-blue-400 uppercase tracking-[0.35em] text-xs font-black">Hoodies</span>
+                    <h3 class="text-white text-2xl font-black uppercase mt-4">Desde RD$ 1,200 c/u</h3>
+                    <p class="text-slate-400 mt-4">Sudaderas personalizadas con estampados de alta definición.</p>
+                    <ul class="mt-6 space-y-3 text-slate-300 text-sm">
+                        <li>Tallas desde S hasta XXL</li>
+                        <li>Colores y diseños a medida</li>
+                        <li>Producción rápida y fiable</li>
+                    </ul>
+                </article>
             </div>
         </div>
     </section>
@@ -932,38 +883,25 @@ class="bg-blue-600 text-white px-6 py-2.5 rounded-lg font-black text-[10px] uppe
         </div>
     </section>
 
-    <section id="contacto" class="py-24 bg-blue-950 text-white">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="grid gap-10 lg:grid-cols-2 items-center">
-                <div>
-                    <span class="text-blue-400 uppercase tracking-[0.35em] text-xs font-black">Contacto rápido</span>
-                    <h2 class="text-4xl font-black uppercase italic mt-4">Escríbenos y te cotizamos ya</h2>
-                    <p class="text-slate-300 mt-5">Completa este formulario y te responderemos con el mejor precio, tiempo y recomendaciones para tu proyecto.</p>
-                    <div class="mt-10 space-y-4 text-sm text-slate-300">
-                        <p><strong>Teléfono:</strong> <a href="tel:+18099948009" class="underline text-white">809-994-8009</a></p>
-                        <p><strong>Email:</strong> <a href="mailto:mannastudio323@gmail.com" class="underline text-white">mannastudio323@gmail.com</a></p>
-                        <p><strong>Ubicación:</strong> Calle Josefa Brea 46, SD</p>
+    <section id="contacto" class="py-24 bg-slate-950 text-white">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center">
+                <span class="text-blue-400 uppercase tracking-[0.35em] text-xs font-black">Contacto</span>
+                <h2 class="text-4xl font-black uppercase italic mt-4">Hablemos de tu próximo proyecto</h2>
+                <p class="text-slate-300 mt-5 max-w-2xl mx-auto">¿Tienes un diseño, cartelería, ropa personalizada o una idea creativa? Escríbenos por correo o llámanos y te cotizamos rápido.</p>
+                <div class="mt-10 grid gap-6 sm:grid-cols-3 text-sm text-slate-300">
+                    <div class="rounded-[2rem] border border-white/10 bg-slate-900 p-6">
+                        <h3 class="font-black uppercase tracking-[0.2em] text-sm text-white">Teléfono</h3>
+                        <p class="mt-3"><a href="tel:+18099948009" class="underline text-white">809-994-8009</a></p>
                     </div>
-                </div>
-                <div class="contact-card rounded-[2rem] bg-slate-900 border border-white/10 p-8 shadow-2xl">
-                    <form id="quickContactForm" onsubmit="return sendQuickContact(event)">
-                        <div class="grid gap-4">
-                            <input id="contactName" type="text" placeholder="Tu nombre" class="contact-input w-full rounded-3xl p-4 focus-visible-ring" required>
-                            <input id="contactPhone" type="tel" placeholder="WhatsApp o teléfono" class="contact-input w-full rounded-3xl p-4 focus-visible-ring" required>
-                            <select id="contactService" class="contact-input w-full rounded-3xl p-4 focus-visible-ring">
-                                <option value="">Servicio requerido</option>
-                                <option value="DTF Textil">DTF Textil</option>
-                                <option value="Corte Láser">Corte Láser</option>
-                                <option value="Router CNC">Router CNC</option>
-                                <option value="Lonas y Rotulación">Lonas y Rotulación</option>
-                                <option value="Branding / Diseño">Branding / Diseño</option>
-                            </select>
-                            <textarea id="contactMessage" rows="4" placeholder="Cuéntanos tu proyecto" class="contact-input w-full rounded-3xl p-4 focus-visible-ring" required></textarea>
-                        </div>
-                        <p id="contactFormMessage" class="mt-4 text-sm text-amber-300 hidden" aria-live="polite"></p>
-                        <button type="submit" class="contact-button mt-6 w-full rounded-3xl py-4 font-black uppercase tracking-[0.25em] hover:brightness-110 transition-all">Enviar mensaje por WhatsApp</button>
-                        <button type="button" onclick="sendQuickEmail()" class="mt-4 w-full rounded-3xl border border-white/20 bg-white/10 py-4 font-black uppercase tracking-[0.25em] text-white hover:bg-white/15 transition-all">Enviar por correo</button>
-                    </form>
+                    <div class="rounded-[2rem] border border-white/10 bg-slate-900 p-6">
+                        <h3 class="font-black uppercase tracking-[0.2em] text-sm text-white">Correo</h3>
+                        <p class="mt-3"><a href="mailto:mannastudio323@gmail.com" class="underline text-white">mannastudio323@gmail.com</a></p>
+                    </div>
+                    <div class="rounded-[2rem] border border-white/10 bg-slate-900 p-6">
+                        <h3 class="font-black uppercase tracking-[0.2em] text-sm text-white">Dirección</h3>
+                        <p class="mt-3">Calle Josefa Brea 46, Santo Domingo</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1074,10 +1012,7 @@ class="w-full mt-4 flex items-center justify-center gap-3 bg-black text-white py
 
 </div>
 
-<button onclick="enviarCotizacion()"
-class="w-full bg-blue-600 hover:bg-blue-700 transition text-white font-black uppercase py-4 rounded-xl">
-    Enviar cotización por WhatsApp
-</button>
+<button onclick="sendCartEmail()" class="w-full bg-blue-600 hover:bg-blue-700 transition text-white font-black uppercase py-4 rounded-xl">Enviar cotización por email</button>
 
 </div>
 </div>
@@ -1775,10 +1710,7 @@ function enviarCarritoWhatsApp() {
                 <a href="tel:+18099948009" aria-label="Llamar a Manna Studio" class="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 p-3 transition hover:border-blue-500 hover:text-blue-500">
                     <i class="fas fa-phone-alt text-xl"></i>
                 </a>
-                <a href="https://wa.me/18099948009" target="_blank" aria-label="WhatsApp Manna Studio" class="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 p-3 transition hover:border-blue-500 hover:text-blue-500">
-                    <i class="fab fa-whatsapp text-xl"></i>
-                </a>
-                <a href="https://www.instagram.com/mannastudiodr" target="_blank" aria-label="Instagram Manna Studio" class="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 p-3 transition hover:border-blue-500 hover:text-blue-500">
+                    <a href="https://www.instagram.com/mannastudiodr" target="_blank" aria-label="Instagram Manna Studio" class="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 p-3 transition hover:border-blue-500 hover:text-blue-500">
                     <i class="fab fa-instagram text-xl"></i>
                 </a>
                 <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=mannastudio323@gmail.com" target="_blank" aria-label="Enviar correo a Manna Studio" class="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 p-3 transition hover:border-blue-500 hover:text-blue-500">
@@ -1841,34 +1773,6 @@ function enviarCarritoWhatsApp() {
 
             <p id="subscriptionMessage" class="text-[10px] text-white/60 uppercase tracking-[0.2em] hidden">Gracias, se abrirá tu correo para confirmar la suscripción.</p>
 
-            <h3 class="footer-col-title mt-8">Métodos de Pago</h3>
-
-            <div class="flex items-center gap-4 opacity-80 transition-all">
-
-                <button type="button" class="payment-bank-btn inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 p-3 text-white/90 transition hover:border-blue-500 hover:text-blue-500" data-bank="bhd" aria-label="Cuenta BHD">
-                    <img src="logobhd.webp" alt="BHD" loading="lazy" class="h-8 w-auto object-contain">
-                </button>
-
-                <button type="button" class="payment-bank-btn inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 p-3 text-white/90 transition hover:border-blue-500 hover:text-blue-500" data-bank="popular" aria-label="Cuenta Popular">
-                    <img src="popular.webp" alt="Popular" loading="lazy" class="h-8 w-auto object-contain">
-                </button>
-
-            </div>
-
-            <div id="bankDetails" class="mt-4 hidden rounded-3xl border border-white/10 bg-white/5 p-4 text-sm text-white/80">
-                <div id="bhdDetails" class="bank-detail hidden">
-                    <div class="font-black uppercase tracking-[0.3em] mb-2">BHD Ahorro</div>
-                    <p class="mb-1">2853810014</p>
-                    <p class="text-xs opacity-70">Heinuel Jiménez</p>
-                </div>
-                <div id="popularDetails" class="bank-detail hidden">
-                    <div class="font-black uppercase tracking-[0.3em] mb-2">Popular Corriente</div>
-                    <p class="mb-1">842422388</p>
-                    <p class="text-xs opacity-70">Heinuel Jiménez</p>
-                </div>
-            </div>
-
-        </div>
 
     </div>
 
@@ -1945,13 +1849,7 @@ class="fixed top-0 right-0 h-full w-[350px] bg-white shadow-2xl z-50 transform t
 
 </div>
 
-        <button onclick="enviarCarritoWhatsApp()"
-        class="w-full bg-green-500 hover:bg-green-600 transition text-white font-black py-3 rounded-xl">
-
-            Enviar por WhatsApp
-
-        </button>
-        <button type="button" onclick="sendCartEmail()" class="mt-3 w-full border border-slate-300 text-slate-900 bg-white hover:bg-slate-100 font-black py-3 rounded-xl transition-all">Enviar cotización por email</button>
+        <button type="button" onclick="sendCartEmail()" class="w-full rounded-xl bg-blue-600 py-4 text-white font-black uppercase tracking-[0.2em] hover:bg-blue-500 transition-all">Enviar cotización por email</button>
 
     </div>
 
@@ -1960,16 +1858,6 @@ class="fixed top-0 right-0 h-full w-[350px] bg-white shadow-2xl z-50 transform t
 <!-- BOTÓN FLOTANTE DE CTA -->
 <a href="#cotizador" class="fixed bottom-20 right-6 z-50 fixed-cta focus-visible-ring" aria-label="Ir a cotizador">
 
-<!-- BOTÓN WHATSAPP -->
-<div class="fixed bottom-6 right-6 group z-50">
-
-    <a href="https://wa.me/18099948009?text=Hola%20quiero%20cotizar"
-    aria-label="Enviar mensaje por WhatsApp"
-    class="bg-green-500 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-xl hover:scale-110 transition-all">
-
-        <i class="fab fa-whatsapp text-2xl"></i>
-
-    </a>
 
     <div class="absolute right-16 bottom-3 bg-black text-white text-xs px-3 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition">
 
