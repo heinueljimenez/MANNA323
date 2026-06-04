@@ -3,9 +3,14 @@ const supabaseKey = "sb_publishable_JJXFQu9Z_xTNNM6c_UlVcg_nWZGhl9a";
 const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 async function loginConGoogle() {
-    const URL_RED_DIRECCION = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+    const currentLocation = window.location.origin + window.location.pathname;
+    const isLocalhost = /^(localhost|127\.0\.0\.1)$/.test(window.location.hostname);
+    const isGithubPages = /github\.io$/.test(window.location.hostname);
+    const URL_RED_DIRECCION = isLocalhost
         ? "http://127.0.0.1:5500/index.html"
-        : window.location.origin + window.location.pathname;
+        : isGithubPages
+            ? "https://heinueljimenez.github.io/MANNA323/"
+            : currentLocation;
 
     const { data, error } = await supabaseClient.auth.signInWithOAuth({
         provider: 'google',
